@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nielsen 風格簡介頁 — Your Name</title>
+  <title>Nielsen 風格簡介頁 — 陳妤恩</title>
   <meta name="description" content="簡潔可讀、以 #707C74 為主色、遵循 Jakob Nielsen 可用性原則的個人介紹頁。" />
-  <meta property="og:title" content="Your Name — Nielsen 風格簡介頁" />
+  <meta property="og:title" content="陳妤恩 — Nielsen 風格簡介頁" />
   <meta property="og:description" content="簡潔可讀、以 #707C74 為主色、遵循 Jakob Nielsen 可用性原則的個人介紹頁。" />
-  <meta property="og:image" content="https://via.placeholder.com/300x300.png?text=Photo" />
+  <meta property="og:image" content="144448.jpg" />
   <meta property="og:type" content="website" />
   <link rel="icon" href="favicon.ico" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
@@ -106,12 +106,12 @@
 <body>
   <main class="container" role="main" aria-labelledby="profileTitle">
     <header class="header">
-     <div class="avatar">
-  <img src="144448.jpg">
-</div>
+      <div class="avatar">
+        <img src="144448.jpg" alt="陳妤恩個人頭像">
+      </div>
       <div class="meta">
         <h1 id="profileTitle" class="name">陳妤恩</h1>
-        <div class="role"> 跨領域創作者 • 資料分析 x 美術</div>
+        <div class="role">跨領域創作者 • 資料分析 x 美術</div>
         <div class="kpi">
           <div class="chip">閱讀 • 攝影 • 美術</div>
           <div class="chip">批判性思考</div>
@@ -148,22 +148,19 @@
 
       <aside>
         <div class="card" style="display:flex;flex-direction:column;gap:10px;align-items:stretch">
-                    <h3>聯絡與快速動作</h3>
+          <h3>聯絡與快速動作</h3>
           <div class="actions" role="group" aria-label="聯絡方式">
-            <!-- Primary: Email (mailto) -->
-            <a class="btn btn-primary" href="mailto:annchen0113@mail.com" aria-label="發送 Email">📩 郵件聯絡</a>
-            <!-- IG: open in new tab -->
+           <a class="btn btn-primary" href="mailto:annchen0113@mail.com" aria-label="發送 Email">📩 郵件聯絡</a>
             <a class="btn btn-ghost" href="https://instagram.com/yourinstagram" target="_blank" rel="noopener" aria-label="在 Instagram 私訊">💬 IG 私訊</a>
-            <!-- LINE (web link placeholder) -->
             <a class="btn btn-ghost" href="https://line.me/ti/p/yourline" target="_blank" rel="noopener" aria-label="開啟 LINE">🟩 LINE</a>
-            <!-- Download vCard -->
             <a class="btn btn-ghost" href="#" id="downloadVcard" aria-label="下載聯絡資訊">📎 下載聯絡卡</a>
+          </div>
           </div>
       </aside>
     </div>
 
     <div style="display:flex;justify-content:space-between;align-items:center;margin-top:18px">
-      <div style="color:var(--muted);font-size:0.9rem">© 2025 Your Name</div>
+      <div style="color:var(--muted);font-size:0.9rem">© 2025 陳妤恩</div>
       <div style="color:var(--muted);font-size:0.9rem">最後更新：2025</div>
     </div>
   </main>
@@ -174,15 +171,15 @@
       e.preventDefault();
       const vcard = `BEGIN:VCARD
 VERSION:3.0
-FN:Your Name
-EMAIL:your@mail.com
-TEL:000-000-0000
+FN:陳妤恩
+EMAIL:annchen0113@mail.com
+TEL:
 END:VCARD`;
       const blob = new Blob([vcard], {type: 'text/plain'});
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'YourName.vcf';
+      a.download = '陳妤恩.vcf';
       document.body.appendChild(a);
       a.click();
       a.remove();
