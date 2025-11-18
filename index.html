@@ -146,5 +146,54 @@
 
       <aside>
         <div class="card" style="display:flex;flex-direction:column;gap:10px;align-items:stretch">
-          <h3>聯絡與快速動作</h3>
-          <div class="actions" role="group" aria-label
+                    <h3>聯絡與快速動作</h3>
+          <div class="actions" role="group" aria-label="聯絡方式">
+            <!-- Primary: Email (mailto) -->
+            <a class="btn btn-primary" href="mailto:your@mail.com" aria-label="發送 Email">📩 郵件聯絡</a>
+            <!-- IG: open in new tab -->
+            <a class="btn btn-ghost" href="https://instagram.com/yourinstagram" target="_blank" rel="noopener" aria-label="在 Instagram 私訊">💬 IG 私訊</a>
+            <!-- LINE (web link placeholder) -->
+            <a class="btn btn-ghost" href="https://line.me/ti/p/yourline" target="_blank" rel="noopener" aria-label="開啟 LINE">🟩 LINE</a>
+            <!-- Download vCard -->
+            <a class="btn btn-ghost" href="#" id="downloadVcard" aria-label="下載聯絡資訊">📎 下載聯絡卡</a>
+          </div>
+          <div class="note">設計靈感：遵循 Jakob Nielsen 的可用性原則 — 讓最重要的任務（聯絡）最容易找到。主色使用 <code>#707C74</code>，維持高可讀性與低視覺雜訊。</div>
+        </div>
+      </aside>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:18px">
+      <div style="color:var(--muted);font-size:0.9rem">© 2025 Your Name</div>
+      <div style="color:var(--muted);font-size:0.9rem">最後更新：2025</div>
+    </div>
+  </main>
+
+  <script>
+    // vCard 產生並下載
+    document.getElementById('downloadVcard').addEventListener('click', function(e){
+      e.preventDefault();
+      const vcard = `BEGIN:VCARD
+VERSION:3.0
+FN:Your Name
+EMAIL:your@mail.com
+TEL:000-000-0000
+END:VCARD`;
+      const blob = new Blob([vcard], {type: 'text/plain'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'YourName.vcf';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    // 無障礙：載入後自動 focus 第一個按鈕
+    window.addEventListener('load', () => {
+      const first = document.querySelector('.btn');
+      if (first) first.focus();
+    });
+  </script>
+</body>
+</html>
