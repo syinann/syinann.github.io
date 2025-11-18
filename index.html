@@ -14,7 +14,7 @@
       --card:#fbfbfb;
       --accent:#2b2f2b;
       --focus:rgba(112,124,116,0.18);
-      --maxw:800px; /* 增加最大寬度以容納新的兩欄佈局 */
+      --maxw:420px; /* **手機介面調整：將最大寬度設定為 420px** */
       --radius:10px;
       --ease:cubic-bezier(.2,.9,.2,1);
     }
@@ -46,7 +46,8 @@
 /* Body grid - 主要的佈局調整 */
 .grid{
     display:grid;
-    grid-template-columns:1fr 220px; /* 左側內容區 (佔用兩欄), 右側動作區 (固定寬度) */
+    /* 手機版主要網格在 @media (max-width: 760px) 中會被覆蓋成單欄 */
+    grid-template-columns:1fr 220px; 
     gap:24px; /* 增加間距 */
     margin-top:20px
 }
@@ -54,6 +55,7 @@
 /* 內容區塊的內部網格：將活動經驗和自主學習改為兩欄 */
 .content-grid{
     display:grid;
+    /* 手機版內容網格在 @media (max-width: 760px) 中會被覆蓋成單欄 */
     grid-template-columns: 1fr 1fr; 
     gap:16px; /* 內容卡片間的間距 */
 }
@@ -77,13 +79,17 @@
 .note{font-size:0.85rem;color:var(--muted);margin-top:14px}
 
 /* responsive */
-@media (max-width:960px){ /* 針對較寬螢幕調整內容網格為單欄 */
-    .content-grid{grid-template-columns:1fr}
+/* 760px 以上的平板/寬螢幕：內容區為 2 欄 */
+@media (min-width: 761px) and (max-width:960px){ 
+    .grid{grid-template-columns: 1fr 180px} /* 調整平板上的右側欄寬 */
+    .content-grid{grid-template-columns:1fr} /* 平板上內容網格調整為單欄 */
 }
-@media (max-width:760px){ /* 針對手機螢幕調整主要網格 */
-    .grid{grid-template-columns:1fr; gap:16px}
-    .content-grid{grid-template-columns:1fr} /* 手機時內容網格也保持單欄 */
-    .actions{flex-direction:row; flex-wrap:wrap;} /* 手機上按鈕改為水平排列 */
+
+/* **760px 以下（手機介面）：所有內容垂直堆疊** */
+@media (max-width:760px){ 
+    .grid{grid-template-columns:1fr; gap:16px} /* 主要網格變為單欄 */
+    .content-grid{grid-template-columns:1fr} /* 內容網格變為單欄 */
+    .actions{flex-direction:row; flex-wrap:wrap;} /* 按鈕改為水平排列 */
     .btn{flex-grow:1; min-width:45%;} /* 按鈕佔據一定寬度 */
     .note{display:none} /* 手機上隱藏備註以節省空間 */
 }
