@@ -1,33 +1,36 @@
-<!DOCTYPE html>  <html lang="zh-Hant">  
-<head>  
-  <meta charset="utf-8" />  
-  <meta name="viewport" content="width=device-width, initial-scale=1" />  
-  <title>Nielsen 風格 簡介頁 — Your Name</title>  
-  <meta name="description" content="簡潔可讀、以 #707C74 為主色、遵循 Jakob Nielsen 可用性原則的個人介紹頁。適合放在 IG 個人簡介連結。" />  
-  <style>  
-    :root{  
-      --primary:#707C74; /* user-specified */  
-      --bg:#ffffff;  
-      --muted:#6b6f6b;  
-      --glass:rgba(112,124,116,0.06);  
-      --card:#fbfbfb;  
-      --accent:#2b2f2b;  
-      --focus:rgba(112,124,116,0.18);  
-      --maxw:800px; /* 增加最大寬度以容納新的兩欄佈局 */  
-      --radius:10px;  
-      --ease:cubic-bezier(.2,.9,.2,1);  
-    }  
-    /* Basic reset */  
-    *{box-sizing:border-box}  
-    html,body{height:100%}  
-    body{  
-      margin:0;padding:24px;background:linear-gradient(180deg,#ffffff 0%,#f6f7f6 100%);  
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans TC', 'Helvetica Neue', Arial;  
-      color:var(--accent);display:flex;align-items:center;justify-content:center;  
-    }.container{  
-  width:100%;max-width:var(--maxw);background:var(--card);border-radius:14px;padding:22px;border:1px solid var(--glass);  
-  box-shadow:0 6px 18px rgba(28,30,28,0.06);  
-}  /* Top: quick scan header */
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nielsen 風格 簡介頁 — Your Name</title>
+  <meta name="description" content="簡潔可讀、以 #707C74 為主色、遵循 Jakob Nielsen 可用性原則的個人介紹頁。適合放在 IG 個人簡介連結。" />
+  <style>
+    :root{
+      --primary:#707C74; /* user-specified */
+      --bg:#ffffff;
+      --muted:#6b6f6b;
+      --glass:rgba(112,124,116,0.06);
+      --card:#fbfbfb;
+      --accent:#2b2f2b;
+      --focus:rgba(112,124,116,0.18);
+      --maxw:800px; /* 增加最大寬度以容納新的兩欄佈局 */
+      --radius:10px;
+      --ease:cubic-bezier(.2,.9,.2,1);
+    }
+    /* Basic reset */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;padding:24px;background:linear-gradient(180deg,#ffffff 0%,#f6f7f6 100%);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans TC', 'Helvetica Neue', Arial;
+      color:var(--accent);display:flex;align-items:center;justify-content:center;
+    }.container{
+  width:100%;max-width:var(--maxw);background:var(--card);border-radius:14px;padding:22px;border:1px solid var(--glass);
+  box-shadow:0 6px 18px rgba(28,30,28,0.06);
+}
+
+/* Top: quick scan header */
 .header{display:flex;gap:16px;align-items:center}
 .avatar{width:84px;height:84px;border-radius:8px;overflow:hidden;border:2px solid var(--glass);flex-shrink:0}
 .avatar img{width:100%;height:100%;object-fit:cover;display:block}
@@ -35,30 +38,30 @@
 .name{font-size:1.25rem;font-weight:700;margin:0;color:var(--primary)}
 .role{margin:6px 0 0 0;color:var(--muted);font-size:0.95rem}
 
-/* Key info row - Nielsen: make tasks visible /
+/* Key info row - Nielsen: make tasks visible */
 .kpi{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
 .chip{background:transparent;border:1px solid rgba(112,124,116,0.12);padding:8px 12px;border-radius:999px;font-size:0.95rem;color:var(--muted)}
-.chip i{margin-right:6px} / 晶片內的圖示樣式 */
+.chip i{margin-right:6px} /* 晶片內的圖示樣式 */
 
-/* Body grid - 主要的佈局調整 /
+/* Body grid - 主要的佈局調整 */
 .grid{
-display:grid;
-grid-template-columns:1fr 220px; / 左側內容區 (佔用兩欄), 右側動作區 (固定寬度) /
-gap:24px; / 增加間距 */
-margin-top:20px
+    display:grid;
+    grid-template-columns:1fr 220px; /* 左側內容區 (佔用兩欄), 右側動作區 (固定寬度) */
+    gap:24px; /* 增加間距 */
+    margin-top:20px
 }
 
-/* 內容區塊的內部網格：將活動經驗和自主學習改為兩欄 /
+/* 內容區塊的內部網格：將活動經驗和自主學習改為兩欄 */
 .content-grid{
-display:grid;
-grid-template-columns: 1fr 1fr;
-gap:16px; / 內容卡片間的間距 */
+    display:grid;
+    grid-template-columns: 1fr 1fr; 
+    gap:16px; /* 內容卡片間的間距 */
 }
 
-/* 卡片與內容樣式 /
+/* 卡片與內容樣式 */
 .card{background:#fff;border-radius:10px;padding:16px;border:1px solid rgba(0,0,0,0.04)}
 .card h3{margin:0 0 8px 0;font-size:1rem;color:var(--primary);display:flex;align-items:center;}
-.card h3 i{margin-right:8px;font-size:1.2rem} / 標題前的圖示樣式 */
+.card h3 i{margin-right:8px;font-size:1.2rem} /* 標題前的圖示樣式 */
 .card p{margin:0;color:var(--muted);line-height:1.6;font-size:0.95rem}
 .list{margin:0;padding-left:18px;color:var(--muted);line-height:1.6;font-size:0.95rem}
 
@@ -73,41 +76,110 @@ gap:16px; / 內容卡片間的間距 */
 /* small footer / meta */
 .note{font-size:0.85rem;color:var(--muted);margin-top:14px}
 
-/* responsive /
-@media (max-width:960px){ / 針對較寬螢幕調整內容網格為單欄 /
-.content-grid{grid-template-columns:1fr}
+/* responsive */
+@media (max-width:960px){ /* 針對較寬螢幕調整內容網格為單欄 */
+    .content-grid{grid-template-columns:1fr}
 }
-@media (max-width:760px){ / 針對手機螢幕調整主要網格 /
-.grid{grid-template-columns:1fr; gap:16px}
-.content-grid{grid-template-columns:1fr} / 手機時內容網格也保持單欄 /
-.actions{flex-direction:row; flex-wrap:wrap;} / 手機上按鈕改為水平排列 /
-.btn{flex-grow:1; min-width:45%;} / 按鈕佔據一定寬度 /
-.note{display:none} / 手機上隱藏備註以節省空間 */
+@media (max-width:760px){ /* 針對手機螢幕調整主要網格 */
+    .grid{grid-template-columns:1fr; gap:16px}
+    .content-grid{grid-template-columns:1fr} /* 手機時內容網格也保持單欄 */
+    .actions{flex-direction:row; flex-wrap:wrap;} /* 手機上按鈕改為水平排列 */
+    .btn{flex-grow:1; min-width:45%;} /* 按鈕佔據一定寬度 */
+    .note{display:none} /* 手機上隱藏備註以節省空間 */
 }
 
-  </style>  
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">   
-</head>  
-<body>  
-  <main class="container" role="main" aria-labelledby="profileTitle">  
-    <header class="header">  
-      <div class="avatar" aria-hidden="true"><img src="https://via.placeholder.com/300x300.png?text=Photo" alt="Your photo"></div>  
-      <div class="meta">  
-        <h1 id="profileTitle" class="name">Your Name</h1>  
-        <div class="role">文青風 / 跨領域創作者 • 資料分析 x 美術</div>  
-        <div class="kpi" aria-hidden="true">  
-          <div class="chip"><i>📖</i> 閱讀 • 攝影 • 美術</div>  
-          <div class="chip"><i>🧠</i> 批判性思考</div>  
-          <div class="chip"><i>📊</i> 數據視覺化</div>  
-        </div>  
-      </div>  
-    </header>  <div class="grid">  
-    <section>  
-        <article class="card" aria-labelledby="aboutTitle">  
-          <h3 id="aboutTitle"><i>✨</i> 關於我（快速掃描）</h3>  
-          <p>我把複雜的事物化繁為簡 — 用視覺與文字說故事。喜歡跨領域合作，從概念到可執行的作品皆有實作經驗。若想更完整的履歷或作品集，點擊右側聯絡按鈕。</p>  
-        </article>  
+  </style>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"> 
+</head>
+<body>
+  <main class="container" role="main" aria-labelledby="profileTitle">
+    <header class="header">
+      <div class="avatar" aria-hidden="true"><img src="https://via.placeholder.com/300x300.png?text=Photo" alt="Your photo"></div>
+      <div class="meta">
+        <h1 id="profileTitle" class="name">Your Name</h1>
+        <div class="role">文青風 / 跨領域創作者 • 資料分析 x 美術</div>
+        <div class="kpi" aria-hidden="true">
+          <div class="chip"><i>📖</i> 閱讀 • 攝影 • 美術</div>
+          <div class="chip"><i>🧠</i> 批判性思考</div>
+          <div class="chip"><i>📊</i> 數據視覺化</div>
+        </div>
+      </div>
+    </header>
+    
+    <div class="grid">
+        <section>
+            <article class="card" aria-labelledby="aboutTitle">
+              <h3 id="aboutTitle"><i>✨</i> 關於我（快速掃描）</h3>
+              <p>我把複雜的事物化繁為簡 — 用視覺與文字說故事。喜歡跨領域合作，從概念到可執行的作品皆有實作經驗。若想更完整的履歷或作品集，點擊右側聯絡按鈕。</p>
+            </article>
 
+            <div class="content-grid" style="margin-top:16px;">
+                <article class="card" aria-labelledby="expTitle">
+                  <h3 id="expTitle"><i>💼</i> 活動經驗（摘要）</h3>
+                  <ul class="list">
+                    <li>國家圖書館青年學者養成營 — 青年學者獎 (最佳 PPT)</li>
+                    <li>多場資訊與資安、Python、HPC訓練營參與經驗</li>
+                    <li>數據視覺化、AI 實作與教育推廣專案</li>
+                    <li>社區服務與偏鄉見習，具溝通與組織能力</li>
+                  </ul>
+                </article>
+
+                <article class="card" aria-labelledby="learnTitle">
+                  <h3 id="learnTitle"><i>💡</i> 自主學習 / 成果</h3>
+                  <ul class="list">
+                    <li>ewant R 語言課程、ChatGPT 實作</li>
+                    <li>多次美術競賽獲獎、持續創作</li>
+                  </ul>
+                </article>
+            </div>
+            
+        </section>
+
+        <aside>
+            <div class="card" style="display:flex;flex-direction:column;gap:10px;align-items:stretch">
+              <h3>快速行動</h3>
+              <div class="actions" role="group" aria-label="聯絡方式">
+                <a class="btn btn-primary" href="mailto:your@mail.com" aria-label="發送 Email">📩 郵件聯絡</a>
+                <a class="btn btn-ghost" href="https://instagram.com/yourinstagram" target="_blank" rel="noopener" aria-label="在 Instagram 私訊">📸 IG 私訊</a>
+                <a class="btn btn-ghost" href="https://line.me/ti/p/yourline" target="_blank" rel="noopener" aria-label="開啟 LINE">🟢 LINE</a>
+                <a class="btn btn-ghost" href="#" id="downloadVcard" aria-label="下載聯絡資訊">📎 下載聯絡卡</a>
+              </div>
+              <div class="note">設計靈感：遵循 Jakob Nielsen 的可用性原則 — 讓最重要的任務（聯絡）最容易找到。主色使用 <code>#707C74</code>，維持高可讀性與低視覺雜訊。</div>
+            </div>
+        </aside>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:18px">
+      <div style="color:var(--muted);font-size:0.9rem">© 2025 Your Name</div>
+      <div style="color:var(--muted);font-size:0.9rem">最後更新：2025</div>
+    </div>
+
+  </main>  
+  
+  <script>
+    // vCard 產生並下載（簡易）
+    document.getElementById('downloadVcard').addEventListener('click', function(e){
+      e.preventDefault();
+      const vcard = `BEGIN:VCARD
+VERSION:3.0
+FN:Your Name
+EMAIL:your@mail.com
+TEL:
+END:VCARD`;
+      const blob = new Blob([vcard], {type: 'text/vcard'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'YourName.vcf';
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    });
+
+    // small accessibility: focus first action on load for keyboard users
+    window.addEventListener('load', ()=>{
+      const first = document.querySelector('.btn');
+      if(first) first.focus();
+    });
+  </script>
+</body>
+</html>
         <div class="content-grid" style="margin-top:16px;">  
             <article class="card" aria-labelledby="expTitle">  
               <h3 id="expTitle"><i>💼</i> 活動經驗（摘要）</h3>  
