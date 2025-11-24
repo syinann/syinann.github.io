@@ -3,391 +3,702 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>陳妤恩 | 學習歷程與個人簡歷</title>
+  <title>陳妤恩 | Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      /* 配色盤：更清爽的現代風格 */
-      --bg-color: #F9F8F4;       /* 米白紙張色 */
+      /* --- 質感配色 --- */
+      --bg-color: #f4f4f0;       /* 暖白 */
       --primary: #5F7161;        /* 森林綠 */
-      --primary-light: #E3E8E5;  /* 淺綠裝飾 */
-      --accent: #D68C45;         /* 焦糖橘 (強調色) */
-      --text-main: #2D3436;
-      --text-muted: #636E72;
+      --accent: #D66D4F;         /* 磚紅 */
+      --text-main: #2b2b2b;
+      --text-muted: #666;
       --card-bg: #ffffff;
+      --border-color: rgba(0,0,0,0.08);
       
-      /* 2D 物理質感 */
-      --border: 2px solid #2D3436;
-      --shadow: 4px 4px 0px rgba(45, 52, 54, 0.15);
-      --shadow-hover: 6px 6px 0px var(--primary);
+      --shadow-card: 0 10px 30px -10px rgba(0,0,0,0.08);
+      --shadow-hover: 0 20px 40px -5px rgba(95, 113, 97, 0.2);
       --radius: 16px;
     }
 
-    /* 深色模式 */
     [data-theme="dark"] {
-      --bg-color: #1e1e1e;
-      --primary: #8FA89B;
-      --primary-light: #2d3436;
-      --text-main: #f1f1f1;
-      --text-muted: #b2bec3;
-      --card-bg: #2d2d2d;
-      --border: 2px solid #555;
-      --shadow: 4px 4px 0px #000;
+      --bg-color: #121212;
+      --primary: #A8B5AF;
+      --accent: #E08E79;
+      --text-main: #f5f5f5;
+      --text-muted: #a0a0a0;
+      --card-bg: #1e1e1e;
+      --border-color: rgba(255,255,255,0.1);
+      --shadow-card: 0 10px 30px -10px rgba(0,0,0,0.5);
     }
 
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     
     body {
-      margin: 0;
-      padding: 40px 20px;
-      font-family: 'Noto Sans TC', sans-serif;
+      font-family: "新儀永樂大典體", "Xinyi Yongle Dadian", "KaiTi", "Noto Serif TC", serif;
       background-color: var(--bg-color);
       color: var(--text-main);
-      /* 網格紙背景紋理 */
-      background-image: linear-gradient(var(--primary-light) 1px, transparent 1px),
-                        linear-gradient(90deg, var(--primary-light) 1px, transparent 1px);
-      background-size: 30px 30px;
-      transition: background 0.3s;
+      line-height: 1.8;
+      overflow-x: hidden; /* 隱藏水平卷軸 */
+    }
+
+    /* --- 1. 開場動畫 --- */
+    .curtain {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background-color: var(--primary); z-index: 9999;
+      display: flex; justify-content: center; align-items: center;
+      animation: slideUp 1s cubic-bezier(0.7, 0, 0.3, 1) 1.5s forwards;
+    }
+    .curtain-text {
+      color: #fff; font-family: 'Noto Serif TC'; font-size: 2.5rem; letter-spacing: 5px; opacity: 0;
+      animation: textFade 0.8s ease-out 0.3s forwards;
+    }
+    @keyframes slideUp { to { transform: translateY(-100%); } }
+    @keyframes textFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* --- 2. Hero 區塊 (固定在底層，創造上滑感) --- */
+    .hero-fixed {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100vh;
+        display: flex; flex-direction: column;
+        justify-content: center; align-items: center;
+        z-index: 0; /* 在最底層 */
+        opacity: 1;
+        transition: opacity 0.5s ease;
+        /* 背景紋理 */
+        background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
+        background-size: 30px 30px;
+    }
+    
+    /* 當內容蓋過時，讓 Hero 淡出 */
+    body.scrolled .hero-fixed { opacity: 0; }
+
+    .hero-avatar {
+        width: 180px; height: 180px;
+        border-radius: 50%; object-fit: cover;
+        border: 4px solid var(--card-bg);
+        box-shadow: var(--shadow-hover);
+        margin-bottom: 20px;
+        animation: zoomIn 1s ease-out 1.6s backwards;
+    }
+    .hero-title {
+        font-size: 3.5rem; font-weight: 700; margin: 0; letter-spacing: 2px;
+        animation: fadeUp 1s ease-out 1.7s backwards;
+        color: var(--text-main);
+    }
+    .hero-subtitle {
+        font-family: 'Noto Sans TC'; font-size: 1.2rem; color: var(--primary);
+        background: rgba(95, 113, 97, 0.1); padding: 5px 20px; border-radius: 50px;
+        margin-top: 15px;
+        animation: fadeUp 1s ease-out 1.8s backwards;
+    }
+    .scroll-hint {
+        position: absolute; bottom: 40px; opacity: 0.5; animation: bounce 2s infinite; font-size: 0.9rem;
+    }
+    @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
+    @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    @keyframes fadeUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    /* --- 3. 縮小後的置頂導航 (Sticky Nav) --- */
+    .sticky-nav {
+        position: fixed; top: 0; left: 0; width: 100%; height: 70px;
+        background: rgba(255,255,255,0.9);
+        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+        z-index: 100;
+        display: flex; align-items: center; justify-content: center;
+        transform: translateY(-100%); /* 預設隱藏 */
+        transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    [data-theme="dark"] .sticky-nav { background: rgba(30,30,30,0.9); }
+    
+    /* 捲動後顯示 */
+    body.scrolled .sticky-nav { transform: translateY(0); }
+
+    .nav-content {
+        width: 100%; max-width: 1000px; padding: 0 20px;
+        display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-profile { display: flex; align-items: center; gap: 15px; }
+    .nav-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+    .nav-name { font-weight: 700; font-size: 1.1rem; color: var(--text-main); }
+    .nav-links { display: flex; gap: 15px; }
+    .nav-btn {
+        text-decoration: none; font-size: 0.9rem; font-family: 'Noto Sans TC';
+        color: var(--text-muted); padding: 5px 10px; border-radius: 8px; cursor: pointer;
+        border: none; background: none;
+    }
+    .nav-btn:hover { color: var(--primary); }
+
+    /* --- 4. 主要內容區 (Main Content) --- */
+    .main-wrapper {
+        position: relative; z-index: 1;
+        margin-top: 100vh; /* 關鍵：把內容推到視窗下方 */
+        background-color: var(--bg-color);
+        border-radius: 40px 40px 0 0; /* 頂部圓角 */
+        box-shadow: 0 -10px 40px rgba(0,0,0,0.05);
+        padding-top: 80px;
+        padding-bottom: 60px;
+        min-height: 100vh;
     }
 
     .container {
-      max-width: 900px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 30px;
+        max-width: 1000px; margin: 0 auto; padding: 0 20px;
+        display: grid; grid-template-columns: 2.4fr 1fr; gap: 50px;
+        align-items: start;
     }
 
-    /* --- 通用卡片 --- */
+    .section-header {
+        font-size: 1.6rem; font-weight: 700; color: var(--text-main);
+        margin-bottom: 25px; padding-bottom: 10px;
+        border-bottom: 2px solid var(--border-color);
+    }
+
+    /* --- 5. 互動卡片 --- */
+    .card-container { display: flex; flex-direction: column; gap: 20px; }
+    
     .card {
-      background: var(--card-bg);
-      border: var(--border);
-      border-radius: var(--radius);
-      padding: 30px;
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden; /* 讓插畫不超出邊界 */
-    }
-
-    /* --- 裝飾性 SVG 插畫 (CSS 繪製) --- */
-    .doodle {
-        position: absolute;
-        z-index: 0;
-        opacity: 0.1;
-        pointer-events: none;
-    }
-    .doodle-top-right { top: -20px; right: -20px; width: 100px; height: 100px; transform: rotate(15deg); }
-    .doodle-bottom-left { bottom: -30px; left: -20px; width: 120px; height: 120px; color: var(--accent); }
-
-    /* --- Header --- */
-    .profile-header {
-        display: flex;
-        align-items: center;
-        gap: 40px;
-    }
-    .avatar-wrapper {
-        position: relative;
-        width: 150px; height: 150px;
-        flex-shrink: 0;
-    }
-    .avatar {
-        width: 100%; height: 100%;
-        object-fit: cover;
-        border-radius: 50%;
-        border: var(--border);
-        background-color: #ddd;
-        position: relative;
-        z-index: 2;
-    }
-    /* 手繪圈圈裝飾 */
-    .avatar-doodle {
-        position: absolute;
-        top: -10px; left: -10px; width: 170px; height: 170px;
-        fill: none; stroke: var(--accent); stroke-width: 2;
-        stroke-dasharray: 10 5;
-        z-index: 1;
-        animation: spin 60s linear infinite;
-    }
-
-    .profile-info h1 {
-        margin: 0; font-size: 2.2rem; font-weight: 700;
-        color: var(--text-main);
-    }
-    .subtitle {
-        font-family: 'Caveat', cursive; /* 手寫字體感 */
-        font-size: 1.5rem; color: var(--primary);
-        margin: 5px 0 15px 0;
-    }
-    .intro-text {
-        font-size: 1rem; color: var(--text-muted); line-height: 1.6;
-    }
-
-    /* --- 經歷折疊卡片 (Accordion) --- */
-    .section-title {
-        display: flex; align-items: center; gap: 10px;
-        font-size: 1.4rem; color: var(--text-main);
-        margin-bottom: 20px;
-        border-bottom: 3px solid var(--primary-light);
-        padding-bottom: 10px;
-    }
-    .section-title svg { width: 24px; height: 24px; fill: var(--primary); }
-
-    details.exp-item {
-        margin-bottom: 15px;
-        border: 1px solid rgba(0,0,0,0.1);
-        border-radius: 8px;
-        background: rgba(255,255,255,0.5);
-        transition: all 0.3s ease;
-    }
-    details.exp-item[open] {
         background: var(--card-bg);
-        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        border-color: var(--primary);
-    }
-    
-    summary {
-        padding: 15px 20px;
+        border-radius: var(--radius);
+        padding: 30px;
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow-card);
         cursor: pointer;
-        font-weight: 700;
-        list-style: none; /* 隱藏預設三角形 */
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        color: var(--text-main);
-    }
-    /* 自訂展開圖示 */
-    summary::after {
-        content: '+'; 
-        font-size: 1.5rem; color: var(--primary);
-        transition: transform 0.3s;
-    }
-    details[open] summary::after { transform: rotate(45deg); color: var(--accent); }
-    
-    .exp-content {
-        padding: 0 20px 20px 20px;
-        color: var(--text-muted);
-        line-height: 1.6;
-        border-top: 1px dashed var(--primary-light);
-        margin-top: 5px;
-        padding-top: 15px;
-        font-size: 0.95rem;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        position: relative; overflow: hidden;
+        display: flex; flex-direction: column;
     }
     
-    .tag-pill {
-        background: var(--primary-light); color: var(--primary);
-        padding: 2px 8px; border-radius: 4px; font-size: 0.8rem;
-        margin-left: 10px; vertical-align: middle; font-weight: 500;
+    /* About Me 卡片 */
+    .card-about {
+        border-left: 5px solid var(--primary);
+        background: linear-gradient(to right, rgba(95, 113, 97, 0.03), rgba(255,255,255,0));
     }
 
-    /* --- 作品集網格 --- */
-    .grid-2 {
-        display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
-    }
-    .project-card {
-        background: var(--bg-color);
-        border: 2px dashed #ccc;
-        border-radius: 12px;
-        padding: 20px;
-        transition: transform 0.2s;
-        cursor: default;
-    }
-    .project-card:hover {
-        border-style: solid;
+    .card:hover {
+        transform: translateY(-5px) scale(1.01);
+        box-shadow: var(--shadow-hover);
         border-color: var(--primary);
-        transform: translateY(-3px);
-        background: var(--card-bg);
     }
-    .project-title { font-weight: 700; margin-bottom: 5px; color: var(--text-main); }
-    .project-desc { font-size: 0.9rem; color: var(--text-muted); margin: 0; }
+    .card::after {
+        content: '↗'; position: absolute; top: 20px; right: 20px;
+        font-size: 1.2rem; color: var(--border-color); transition: 0.3s;
+    }
+    .card:hover::after { color: var(--accent); transform: translate(3px, -3px); }
 
-    /* --- 按鈕與開關 --- */
-    .btn-group { display: flex; gap: 10px; margin-top: 15px; }
-    .btn {
-        text-decoration: none; padding: 8px 16px; border-radius: 8px;
-        font-weight: 700; font-size: 0.9rem;
-        border: 2px solid var(--text-main);
-        background: white; color: var(--text-main);
-        box-shadow: 2px 2px 0 var(--text-main);
-        transition: all 0.1s;
+    .card-tag {
+        font-family: 'Noto Sans TC'; font-size: 0.85rem; font-weight: 500;
+        color: var(--primary); display: block; margin-bottom: 8px;
     }
-    .btn:active { transform: translate(2px, 2px); box-shadow: 0 0 0; }
-    .btn-primary { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 2px 2px 0 #2d3436;}
+    .card-title {
+        font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 0 0 10px 0;
+    }
+    .card-summary {
+        font-size: 1.05rem; color: var(--text-muted); margin: 0 0 15px 0;
+        line-height: 1.6;
+    }
+
+    /* 底部按鈕 (獨立一列) */
+    .card-footer {
+        margin-top: auto; padding-top: 15px; border-top: 1px dashed var(--border-color);
+        display: flex; justify-content: flex-end;
+        opacity: 0.6; transition: opacity 0.3s;
+    }
+    .card:hover .card-footer { opacity: 1; }
+    .card-action {
+        font-size: 0.9rem; font-family: 'Noto Sans TC'; font-weight: 600;
+        color: var(--accent); display: flex; align-items: center; gap: 5px;
+    }
+    .card:hover .card-action span { transform: translateX(3px); transition: 0.3s; }
+
+    /* 網格 */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+    /* --- 6. 側邊欄 --- */
+    .sidebar { position: sticky; top: 100px; }
+    .action-list { display: flex; flex-direction: column; gap: 12px; }
+    
+    .btn {
+        display: flex; align-items: center; justify-content: center; gap: 10px;
+        width: 100%; padding: 16px; text-decoration: none;
+        border-radius: 16px; font-weight: 700; font-size: 1.05rem;
+        font-family: 'Noto Sans TC', sans-serif;
+        transition: all 0.2s; cursor: pointer;
+    }
+    .btn-primary { background: var(--text-main); color: #fff; border: 2px solid var(--text-main); }
+    .btn-primary:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-3px); }
+    .btn-ghost { background: var(--card-bg); color: var(--text-main); border: 2px solid var(--border-color); }
+    .btn-ghost:hover { border-color: var(--text-main); transform: translateY(-3px); }
+
+    /* --- 7. 彈出視窗 (Modal) --- */
+    .modal-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+        z-index: 10000; opacity: 0; visibility: hidden;
+        transition: all 0.4s ease;
+        display: flex; justify-content: center; align-items: center; padding: 20px;
+    }
+    .modal-overlay.active { opacity: 1; visibility: visible; background: rgba(255, 255, 255, 0.6); }
+    [data-theme="dark"] .modal-overlay.active { background: rgba(0, 0, 0, 0.6); }
+
+    .modal-content {
+        background: var(--card-bg); width: 100%; max-width: 750px;
+        border-radius: 24px; padding: 50px;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+        transform: scale(0.9) translateY(30px);
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative; border: 1px solid rgba(0,0,0,0.05);
+        max-height: 90vh; overflow-y: auto;
+    }
+    .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
+
+    .close-btn {
+        position: absolute; top: 20px; right: 20px;
+        width: 40px; height: 40px; border-radius: 50%;
+        background: rgba(0,0,0,0.05); border: none;
+        font-size: 1.5rem; cursor: pointer; color: var(--text-muted); transition: 0.2s;
+    }
+    .close-btn:hover { background: var(--accent); color: #fff; transform: rotate(90deg); }
+
+    .modal-header-tag { color: var(--accent); font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+    .modal-title { font-size: 2rem; font-weight: 700; color: var(--text-main); margin: 10px 0 20px 0; line-height: 1.3; }
+    .modal-body { font-size: 1.1rem; color: var(--text-muted); line-height: 1.9; }
+    .modal-body ul { padding-left: 25px; margin-bottom: 20px; }
+    .modal-body li { margin-bottom: 10px; }
+
+    /* --- 8. 微光特效 --- */
+    .sparkle {
+        position: absolute; pointer-events: none;
+        background: radial-gradient(circle, #fff 10%, transparent 100%);
+        border-radius: 50%; z-index: 10001;
+        animation: sparkleAnim 0.8s ease-out forwards;
+    }
+    @keyframes sparkleAnim { 0% { transform: scale(0); opacity: 1; } 100% { transform: scale(1); opacity: 0; } }
 
     .theme-switch {
-        position: fixed; top: 20px; right: 20px;
-        font-size: 1.5rem; background: none; border: none; cursor: pointer;
-        z-index: 100; transition: transform 0.2s;
+        position: fixed; bottom: 30px; right: 30px; font-size: 2rem;
+        background: var(--card-bg); width: 50px; height: 50px; border-radius: 50%;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 1px solid var(--border-color);
+        cursor: pointer; z-index: 100; display: flex; justify-content: center; align-items: center;
+        transition: transform 0.3s;
     }
-    .theme-switch:hover { transform: scale(1.1) rotate(15deg); }
+    .theme-switch:hover { transform: rotate(20deg) scale(1.1); }
 
-    /* --- RWD --- */
-    @media (max-width: 768px) {
-        .profile-header { flex-direction: column; text-align: center; }
+    /* RWD */
+    @media (max-width: 900px) {
+        .hero-title { font-size: 2.5rem; }
+        .container { grid-template-columns: 1fr; padding: 0; gap: 30px; }
+        .sidebar { position: static; margin-top: 40px; }
         .grid-2 { grid-template-columns: 1fr; }
+        .main-wrapper { padding-top: 40px; margin-top: 85vh; }
+        .modal-content { padding: 30px; }
+        .nav-links { display: none; } /* 手機版隱藏導航文字 */
     }
     @media print {
-        body { background: white; padding: 0; }
-        .card { box-shadow: none; border: 1px solid #ddd; margin-bottom: 20px; }
-        details { border: none; }
-        details[open] { box-shadow: none; }
-        .exp-content { display: block !important; } /* 列印時展開所有內容 */
-        .theme-switch, .btn-group { display: none; }
+        .curtain, .hero-fixed, .sticky-nav, .sidebar, .theme-switch, .card-footer { display: none; }
+        .main-wrapper { margin-top: 0; box-shadow: none; }
+        .card { box-shadow: none; border: 1px solid #000; }
+        .modal-overlay { display: none; }
     }
   </style>
 </head>
 <body>
 
-<button class="theme-switch" onclick="toggleTheme()">🎨</button>
+<div class="curtain">
+    <div class="curtain-text">陳妤恩 PORTFOLIO</div>
+</div>
 
-<div class="container">
-
-    <header class="card">
-        <svg class="doodle doodle-top-right" viewBox="0 0 100 100">
-            <path d="M50 0 L61 35 L98 35 L68 57 L79 91 L50 70 L21 91 L32 57 L2 35 L39 35 Z" fill="var(--accent)"/>
-        </svg>
-
-        <div class="profile-header">
-            <div class="avatar-wrapper">
-                <img src="144448.jpg" alt="陳妤恩" class="avatar">
-                <svg class="avatar-doodle" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="48" />
-                </svg>
-            </div>
-            <div class="profile-info">
-                <h1>陳妤恩 <span style="font-size: 1rem; font-weight: normal; color: var(--text-muted);">Yu-En, Chen</span></h1>
-                <div class="subtitle">Art & Data Analysis / 跨領域學習者</div>
-                <p class="intro-text">
-                    結合美術背景的感性與數據分析的理性。善於從混亂的資訊中梳理脈絡，並用視覺化的方式呈現。
-                    擁有 R 語言分析、活動企劃與實境解謎設計的實戰經驗。
-                </p>
-                <div class="btn-group">
-                    <a href="mailto:annchen0113@mail.com" class="btn btn-primary">📩 聯絡我</a>
-                    <a href="https://github.com/" target="_blank" class="btn">🐱 GitHub</a>
-                </div>
-            </div>
+<nav class="sticky-nav">
+    <div class="nav-content">
+        <div class="nav-profile">
+            <img src="144448.jpg" class="nav-avatar" alt="Avatar">
+            <span class="nav-name">陳妤恩</span>
         </div>
-    </header>
+        <div class="nav-links">
+            <a href="mailto:annchen0113@mail.com" class="nav-btn">聯絡我</a>
+            <button onclick="downloadVcard()" class="nav-btn">下載簡歷</button>
+        </div>
+    </div>
+</nav>
 
-    <section class="card">
-        <h2 class="section-title">
-            <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-            經歷與活動 (點擊展開)
-        </h2>
+<div class="hero-fixed">
+    <img src="144448.jpg" class="hero-avatar" alt="陳妤恩">
+    <h1 class="hero-title">陳妤恩 <span style="font-size: 1.8rem; font-weight: 400;">Yu-En</span></h1>
+    <div class="hero-subtitle">美術與數據的跨領域實踐者</div>
+    <div class="scroll-hint">↓ Scroll to Explore</div>
+</div>
 
-        <details class="exp-item" open>
-            <summary>
-                <span>國家圖書館 青年學者養成營 <span class="tag-pill">獲獎</span></span>
-                <span>2022</span>
-            </summary>
-            <div class="exp-content">
-                <p><strong>🏆 榮獲「青年學者獎」與「最佳 PPT 獎」</strong></p>
-                <ul>
-                    [cite_start]<li>針對「遠距教學與城鄉差距」議題，設計問卷收集 260 份樣本 [cite: 1290, 1302]。</li>
-                    [cite_start]<li>負責資料查找、邏輯統整與圖表分析，最終進行口頭發表 [cite: 1310]。</li>
-                    [cite_start]<li>展現批判性思維與學術寫作能力 [cite: 1311, 1314]。</li>
-                </ul>
-            </div>
-        </details>
-
-        <details class="exp-item">
-            <summary>
-                <span>社團幹部與領導經驗 <span class="tag-pill">領導</span></span>
-                <span>High School</span>
-            </summary>
-            <div class="exp-content">
-                <ul>
-                    [cite_start]<li><strong>科學研究社：</strong> 培養實驗設計與邏輯推理能力，學習如何將大問題拆解為可執行的步驟 [cite: 1210, 1588]。</li>
-                    [cite_start]<li><strong>模擬聯合國社：</strong> 學習國際議事規則、協商談判與撰寫文案，增強公共演講自信 [cite: 1209, 1584]。</li>
-                    [cite_start]<li><strong>班級幹部：</strong> 擔任環保股長與學科小老師（化學、數學），協助同儕解決課業問題 [cite: 1428, 1429]。</li>
-                </ul>
-            </div>
-        </details>
-
-        <details class="exp-item">
-            <summary>
-                <span>全國美術比賽 <span class="tag-pill">藝術</span></span>
-                <span>多屆參賽</span>
-            </summary>
-            <div class="exp-content">
-                <p>出身美術班背景，具備深厚的美學素養。</p>
-                <ul>
-                    [cite_start]<li>107學年度 全國學生美術比賽 平面設計類 <strong>全國佳作</strong> [cite: 1471]。</li>
-                    [cite_start]<li>106學年度 全國學生美術比賽 漫畫類 <strong>全國甲等</strong> [cite: 1470]。</li>
-                    [cite_start]<li>具備版畫、水墨、素描等多媒材創作能力，能將美感應用於簡報與UI設計 [cite: 1374]。</li>
-                </ul>
-            </div>
-        </details>
-
-        <details class="exp-item">
-            <summary>
-                <span>資訊與資安研習營 <span class="tag-pill">資訊</span></span>
-                <span>2023</span>
-            </summary>
-            <div class="exp-content">
-                <ul>
-                    [cite_start]<li>參加 Advanced CyberSecurity Day，學習 Linux 與 Python 基礎資安分析實務 [cite: 1461, 1463]。</li>
-                    [cite_start]<li>參與 HPC x AI 高速計算人工智慧夏令營，接觸先進運算技術 [cite: 1466]。</li>
-                    [cite_start]<li>修習「R語言新手村」秋季班並取得修課通過證明，具備數據轉化為圖表的能力 [cite: 1542, 1543]。</li>
-                </ul>
-            </div>
-        </details>
-    </section>
-
-    <section class="card">
-        <svg class="doodle doodle-bottom-left" viewBox="0 0 100 20">
-            <path d="M0 10 Q 25 0, 50 10 T 100 10" fill="none" stroke="var(--primary)" stroke-width="3"/>
-        </svg>
-
-        <h2 class="section-title">
-            <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"/></svg>
-            精選課程學習成果
-        </h2>
+<div class="main-wrapper">
+    <div class="container">
         
-        <div class="grid-2">
-            <div class="project-card">
-                <div class="project-title">📱 行動支付與消費者研究</div>
-                <p class="project-desc">
-                    [cite_start]分析台灣行動支付普及率與年齡偏好（Line Pay vs 街口）。探討科技接受度與使用痛點，閱讀大量國內外文獻進行統整 [cite: 1492]。
-                </p>
+        <main>
+            <section style="margin-bottom: 40px;">
+                <div class="card card-about" onclick="handleCardClick(event, 'about')">
+                    <div class="card-content-wrapper">
+                        <span class="card-tag">Profile ｜ 關於我</span>
+                        <h3 class="card-title">從畫筆到數據：跨領域的學習旅程</h3>
+                        <p class="card-summary">
+                            出身美術班背景，後來投身於多元學科的探索。這段獨特的跨域經歷，讓我學會用「設計思維」去解決「邏輯問題」。
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-action">Read More <span>＋</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <div class="section-header">經歷與活動</div>
+                <div class="card-container">
+                    
+                    <div class="card" onclick="handleCardClick(event, 'exp1')">
+                        <div class="card-content-wrapper">
+                            <span class="card-tag">2022 ｜ 專題研究</span>
+                            <h3 class="card-title">國家圖書館 青年學者養成營</h3>
+                            <p class="card-summary">針對「遠距教學與城鄉差距」議題進行獨立研究，負責問卷設計與數據分析。</p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-action">View Details <span>＋</span></div>
+                        </div>
+                    </div>
+
+                    <div class="card" onclick="handleCardClick(event, 'exp2')">
+                        <div class="card-content-wrapper">
+                            <span class="card-tag">High School ｜ 領導經驗</span>
+                            <h3 class="card-title">社團幹部與領導經驗</h3>
+                            <p class="card-summary">擔任科學研究社、模擬聯合國社成員，以及班級環保股長與學科小老師，具備溝通協調力。</p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-action">View Details <span>＋</span></div>
+                        </div>
+                    </div>
+
+                    <div class="card" onclick="handleCardClick(event, 'exp3')">
+                        <div class="card-content-wrapper">
+                            <span class="card-tag">2023 ｜ 資訊實力</span>
+                            <h3 class="card-title">資訊與資安研習營</h3>
+                            <p class="card-summary">參與 Advanced CyberSecurity Day，深入學習 Linux 系統操作與 Python 基礎資安分析實務。</p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-action">View Details <span>＋</span></div>
+                        </div>
+                    </div>
+
+                    <div class="card" onclick="handleCardClick(event, 'exp4')">
+                        <div class="card-content-wrapper">
+                            <span class="card-tag">多屆參賽 ｜ 藝術背景</span>
+                            <h3 class="card-title">全國學生美術比賽</h3>
+                            <p class="card-summary">多次參與平面設計類與漫畫類比賽，具備將美感應用於簡報與 UI 的能力。</p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-action">View Details <span>＋</span></div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section style="margin-top: 60px;">
+                <div class="section-header">精選課程學習成果</div>
+                <div class="grid-2">
+                    
+                    <div class="card" onclick="handleCardClick(event, 'pj1')">
+                        <div class="card-content-wrapper">
+                            <span class="card-tag">數據分析</span>
+                            <h3 class="card-title">行動支付與消費者研究</h3>
+                            <p class="card-summary">分析 Line Pay vs 街口支付在不同年齡層的使用偏好。</p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-action">View Details <span>＋</span></div>
+                        </div>
+                    </div>
+
+                    <div class="card" onclick="handleCardClick(event, 'pj2')">
+                        <div class="card-content-wrapper">
+                            <span class="card-tag">物理探究</span>
+                            <h3 class="card-title">Looping Pendulum 循環鐘擺</h3>
+                            <p class="card-summary">挑戰高難度物理實驗，閱讀外文期刊，建立誤差修正模型。</p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-action">View Details <span>＋</span></div>
+                        </div>
+                    </div>
+
+                    <div class="card" onclick="handleCardClick(event, 'pj3')">
+                        <div class="card-content-wrapper">
+                            <span class="card-tag">實境解謎</span>
+                            <h3 class="card-title">吉爺物語：在地文化遊戲化</h3>
+                            <p class="card-summary">結合花蓮慶修院古蹟設計互動解謎遊戲，推廣在地觀光。</p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-action">View Details <span>＋</span></div>
+                        </div>
+                    </div>
+
+                    <div class="card" onclick="handleCardClick(event, 'pj4')">
+                        <div class="card-content-wrapper">
+                            <span class="card-tag">永續議題</span>
+                            <h3 class="card-title">海洋能發展潛能探討</h3>
+                            <p class="card-summary">分析黑潮發電技術瓶頸，探討台灣 2050 淨零排放策略。</p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-action">View Details <span>＋</span></div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+
+        <aside class="sidebar">
+            <div class="card" style="text-align: center;">
+                <h3 style="margin:0 0 20px 0; font-family:'Noto Sans TC'; color:var(--text-main);">聯絡與下載</h3>
+                <div class="action-list">
+                    <a class="btn btn-primary" href="mailto:annchen0113@mail.com">📩 郵件聯絡</a>
+                    <a class="btn btn-ghost" href="https://instagram.com/" target="_blank">💬 IG 私訊</a>
+                    <a class="btn btn-ghost" href="https://line.me/" target="_blank">🟩 LINE 加好友</a>
+                    <button class="btn btn-ghost" onclick="downloadVcard()">📎 下載聯絡卡</button>
+                    <a class="btn btn-ghost" href="https://github.com/" target="_blank">🐱 GitHub</a>
+                </div>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-top:20px;">Updated: 2025</p>
             </div>
+        </aside>
 
-            <div class="project-card">
-                <div class="project-title">🔄 Looping Pendulum 物理探究</div>
-                <p class="project-desc">
-                    [cite_start]挑戰高難度物理選題「循環鐘擺」。克服器材誤差，閱讀外文期刊，設計實驗探討擺重與下降距離之關係 [cite: 1477, 1480]。
-                </p>
-            </div>
+    </div>
+</div>
 
-            <div class="project-card">
-                <div class="project-title">🗺️ 實境解謎：吉爺物語</div>
-                <p class="project-desc">
-                    [cite_start]結合在地文化（慶修院、好客藝術村）設計實境解謎遊戲 (Popworld)。負責故事發想與關卡設計，推廣家鄉觀光 [cite: 1500]。
-                </p>
-            </div>
+<button class="theme-switch" onclick="toggleTheme()">🏮</button>
 
-            <div class="project-card">
-                <div class="project-title">🌊 海洋能發展潛能探討</div>
-                <p class="project-desc">
-                    [cite_start]關注永續議題，分析黑潮發電與海洋溫差能的技術瓶頸。探討台灣邁向 2050 淨零排放的綠能策略 [cite: 1504]。
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <footer style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-top: 20px;">
-        <p>© 2025 陳妤恩 | Designed with Creativity & Logic</p>
-    </footer>
-
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal-content">
+        <button class="close-btn" onclick="forceCloseModal()">×</button>
+        <div id="modalInject"></div>
+    </div>
 </div>
 
 <script>
+    // --- 捲動監聽 ---
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY > 300;
+        document.body.classList.toggle('scrolled', scrolled);
+    });
+
+    // --- 資料庫 (已更新：移除雜訊、移除獲獎強調、移除理工/申請字眼) ---
+    const data = {
+        'about': {
+            tag: 'About Me | 個人特質',
+            title: '從畫筆到數據：跨領域的學習旅程',
+            body: `
+                <p style="font-size:1.15rem; color:#2b2b2b;">「理性與感性並非對立，而是互補。」</p>
+                [cite_start]<p>從小在美術班的環境長大，習慣用畫筆描繪世界 [cite: 18-19]。而在成長過程中，我開始投身於多元學科的探索，這些經歷拓展了我的視野。</p>
+                <h3>為什麼選擇這條路？</h3>
+                <ul>
+                    [cite_start]<li><strong>跨域融合：</strong> 我發現資訊技術不僅是冷冰冰的代碼，它能與我的美術背景結合，創造出更具溫度與易用性的介面設計 (UI/UX) [cite: 197-198]。</li>
+                    [cite_start]<li><strong>批判性思考：</strong> 在科學研究社與模擬聯合國的經驗中，我學會了如何理性分析問題、拆解架構，並提出解決方案 [cite: 25-29]。</li>
+                </ul>
+                <h3>對未來的期許</h3>
+                <p>我期許能將「程式邏輯」與「視覺美學」深度結合，運用數據解決問題，成為一位能用數據說故事的跨領域人才。</p>
+            `
+        },
+        'exp1': {
+            tag: '2022 | 專題研究',
+            title: '國家圖書館 青年學者養成營',
+            body: `
+                <p style="color:var(--accent); font-weight:700; font-size:1.2rem;">專題研究成果發表</p>
+                <p>這是一個極具挑戰性的學術養成計畫，我們需要針對特定議題進行嚴謹的研究。</p>
+                <ul>
+                    <li><strong>研究主題：</strong>「遠距教學是否能降低城鄉教育資源落差」。</li>
+                    <li><strong>執行內容：</strong>設計問卷收集了 260 份樣本，負責資料查找、邏輯統整與圖表分析。</li>
+                    [cite_start]<li><strong>成果發表：</strong>最終進行口頭發表，接受教授提問並獲得肯定 [cite: 36, 105, 114, 1528-1540]。</li>
+                </ul>
+            `
+        },
+        'exp2': {
+            tag: 'High School | 領導與溝通',
+            title: '社團幹部與領導經驗',
+            body: `
+                <p>在高中期間，我積極參與多元社團與班級事務，培養了解決問題與溝通協調的能力。</p>
+                <ul>
+                    [cite_start]<li><strong>科學研究社：</strong> 培養實驗設計與邏輯推理能力，學習將大問題拆解為可執行的步驟 [cite: 26, 824-826]。</li>
+                    [cite_start]<li><strong>模擬聯合國社：</strong> 學習國際議事規則、協商談判技巧與撰寫文案 [cite: 25, 818-823]。</li>
+                    [cite_start]<li><strong>班級幹部：</strong> 擔任環保股長與數學/化學小老師，協助老師教學並解決同學課業問題 [cite: 20-22]。</li>
+                </ul>
+            `
+        },
+        'exp3': {
+            tag: '2023 | 資訊實力',
+            title: '資訊與資安研習營',
+            body: `
+                <p>為了增進資訊領域的實戰能力，我主動參與了多項校外研習。</p>
+                <ul>
+                    [cite_start]<li><strong>Advanced CyberSecurity Day：</strong> 學習 Linux 系統操作與 Python 基礎資安分析實務 [cite: 51-54, 1472-1475]。</li>
+                    <li><strong>HPC x AI 夏令營：</strong> 接觸高速計算與人工智慧的基礎應用。</li>
+                    [cite_start]<li><strong>R 語言證書：</strong> 修習 ewant「R語言新手村」秋季班並取得修課通過證明，具備將數據轉化為圖表的能力 [cite: 33, 132-136]。</li>
+                </ul>
+            `
+        },
+        'exp4': {
+            tag: 'Art | 跨域結合',
+            title: '全國學生美術比賽',
+            body: `
+                <p>出身美術班背景，具備深厚的美學素養，這讓我能將美感融入資訊專案的 UI/UX 設計中。</p>
+                <ul>
+                    <li><strong>107學年度：</strong> 全國學生美術比賽 平面設計類 參賽與肯定。</li>
+                    <li><strong>106學年度：</strong> 全國學生美術比賽 漫畫類 參賽與肯定。</li>
+                    [cite_start]<li>具備版畫、水墨、素描等多媒材創作能力 [cite: 60-62, 867-871]。</li>
+                </ul>
+            `
+        },
+        'pj1': {
+            tag: 'Data Analysis',
+            title: '行動支付與消費者研究',
+            body: `
+                <p>這是一個結合社會觀察與數據分析的研究專案。</p>
+                <ul>
+                    <li><strong>研究動機：</strong> 探討台灣行動支付普及率及其背後的消費者行為模式。</li>
+                    [cite_start]<li><strong>分析重點：</strong> 比較 Line Pay 與街口支付在不同年齡層的使用偏好 [cite: 1234-1266]。</li>
+                    [cite_start]<li><strong>深入探討：</strong> 研究科技接受度模型 (TAM) 與使用者的痛點（如資安疑慮）[cite: 1278-1283]。</li>
+                    [cite_start]<li><strong>資料來源：</strong> 閱讀大量國內外文獻與數據報告進行統整 [cite: 1156-1166]。</li>
+                </ul>
+            `
+        },
+        'pj2': {
+            tag: 'Physics Inquiry',
+            title: 'Looping Pendulum 循環鐘擺',
+            body: `
+                <p>挑戰全班沒人敢選的高難度物理題目，展現實驗精神。</p>
+                <ul>
+                    <li><strong>困難點：</strong> 相關中文文獻極少，需閱讀外文期刊理解原理。</li>
+                    <li><strong>實驗設計：</strong> 探討擺重與下降距離的關係，並設計實驗裝置。</li>
+                    [cite_start]<li><strong>克服誤差：</strong> 針對學校器材的限制，運用統計方法與模型修正誤差 [cite: 68-81, 994-1037]。</li>
+                </ul>
+            `
+        },
+        'pj3': {
+            tag: 'Game Design',
+            title: '吉爺物語：在地文化遊戲化',
+            body: `
+                <p>結合「家鄉推廣」與「遊戲設計」的跨領域作品。</p>
+                <ul>
+                    <li><strong>使用平台：</strong> Popworld (蹦世界)。</li>
+                    <li><strong>場景設定：</strong> 花蓮慶修院、好客藝術村。</li>
+                    <li><strong>負責內容：</strong> 故事腳本發想、謎題關卡設計。</li>
+                    [cite_start]<li><strong>目標：</strong> 透過遊戲化的方式，吸引年輕遊客深入了解花蓮的日治時期歷史文化 [cite: 91-94, 906-960]。</li>
+                </ul>
+            `
+        },
+        'pj4': {
+            tag: 'Sustainability',
+            title: '海洋能發展潛能探討',
+            body: `
+                <p>關注永續議題，分析台灣綠能發展的可能性。</p>
+                <ul>
+                    [cite_start]<li><strong>技術分析：</strong> 研究黑潮發電與海洋溫差能的技術原理與瓶頸 [cite: 287, 415-430]。</li>
+                    [cite_start]<li><strong>策略探討：</strong> 探討台灣邁向 2050 淨零排放的綠能策略與挑戰 [cite: 282-283, 311-312]。</li>
+                </ul>
+            `
+        }
+    };
+
+    // --- 微光特效 ---
+    function createBurst(x, y) {
+        const particleCount = 12;
+        const colors = ['#D66D4F', '#5F7161', '#FFD700', '#FFFFFF']; 
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('sparkle');
+            document.body.appendChild(particle);
+
+            const angle = Math.random() * Math.PI * 2;
+            const velocity = 30 + Math.random() * 50; 
+            const size = 4 + Math.random() * 4;
+            const color = colors[Math.floor(Math.random() * colors.length)];
+
+            particle.style.left = `${x}px`;
+            particle.style.top = `${y}px`;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.backgroundColor = color;
+
+            const tx = Math.cos(angle) * velocity;
+            const ty = Math.sin(angle) * velocity;
+
+            particle.animate([
+                { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+                { transform: `translate(${tx}px, ${ty}px) scale(0)`, opacity: 0 }
+            ], {
+                duration: 600 + Math.random() * 200,
+                easing: 'cubic-bezier(0, .9, .57, 1)',
+                fill: 'forwards'
+            });
+
+            setTimeout(() => particle.remove(), 1000);
+        }
+    }
+
+    function handleCardClick(event, key) {
+        const clickX = event.clientX;
+        const clickY = event.clientY;
+        createBurst(clickX, clickY);
+        setTimeout(() => openModal(key), 150);
+    }
+
+    // --- Modal Logic ---
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalInject = document.getElementById('modalInject');
+
+    function openModal(key) {
+        const content = data[key];
+        if(!content) return;
+
+        modalInject.innerHTML = `
+            <div class="modal-header-tag">${content.tag}</div>
+            <h2 class="modal-title">${content.title}</h2>
+            <div class="modal-body">${content.body}</div>
+        `;
+        
+        modalOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden'; 
+    }
+
+    function closeModal(e) {
+        if (e.target === modalOverlay) forceCloseModal();
+    }
+
+    function forceCloseModal() {
+        modalOverlay.classList.remove('active');
+        document.body.style.overflow = ''; 
+    }
+
+    // --- Theme Toggle ---
     function toggleTheme() {
         const body = document.body;
         const current = body.getAttribute('data-theme');
         const next = current === 'dark' ? 'light' : 'dark';
         body.setAttribute('data-theme', next);
+        document.querySelector('.theme-switch').innerHTML = next === 'dark' ? '☀️' : '🏮';
+    }
+
+    // --- vCard ---
+    function downloadVcard() {
+        const vcard = `BEGIN:VCARD
+VERSION:3.0
+FN:陳妤恩
+EMAIL:annchen0113@mail.com
+NOTE:美術與數據分析
+END:VCARD`;
+        const blob = new Blob([vcard], {type: 'text/plain'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = '陳妤恩_Contact.vcf';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
     }
 </script>
 
