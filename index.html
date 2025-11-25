@@ -5,31 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>陳妤恩 | Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;900&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      /* --- 質感配色 --- */
-      --bg-color: #f4f4f0;       /* 暖白 */
-      --primary: #5F7161;        /* 森林綠 */
-      --accent: #D66D4F;         /* 磚紅 */
-      --text-main: #2b2b2b;
-      --text-muted: #666;
-      --card-bg: #ffffff;
-      --border-color: rgba(0,0,0,0.08);
+      /* --- 利休鼠配色計畫 --- */
+      --primary: #887F7A;        /* 利休鼠 (Rikyunezumi) - 主色 */
+      --primary-dark: #5E5552;   /* 深灰褐 - 文字/邊框 */
+      --accent: #B45D40;         /* 紅樺色 - 強調/按鈕 */
+      --accent-soft: #D8C6BE;    /* 淺藕色 - 裝飾背景 */
       
-      --shadow-card: 0 10px 30px -10px rgba(0,0,0,0.08);
-      --shadow-hover: 0 20px 40px -5px rgba(95, 113, 97, 0.2);
-      --radius: 16px;
+      --bg-color: #F7F6F5;       /* 練色 - 溫潤米白背景 */
+      --card-bg: #FFFFFF;        /* 純白卡片 */
+      --text-main: #3A322F;      /* 接近黑的深褐 */
+      --text-muted: #757575;     /* 中灰 */
+      
+      --border-color: rgba(136, 127, 122, 0.2); /* 利休鼠的淡化版 */
+      
+      /* --- 陰影與圓角 --- */
+      --shadow-card: 0 10px 30px -10px rgba(60, 50, 40, 0.08);
+      --shadow-hover: 0 25px 50px -12px rgba(180, 93, 64, 0.15);
+      --radius: 12px; /* 稍微方一點，更顯俐落 */
     }
 
     [data-theme="dark"] {
-      --bg-color: #121212;
-      --primary: #A8B5AF;
-      --accent: #E08E79;
-      --text-main: #f5f5f5;
-      --text-muted: #a0a0a0;
-      --card-bg: #1e1e1e;
+      --bg-color: #1A1918;
+      --primary: #9E948F;
+      --primary-dark: #C0B6B0;
+      --accent: #D07A5F;
+      --card-bg: #242221;
+      --text-main: #EAEAEA;
+      --text-muted: #A0A0A0;
       --border-color: rgba(255,255,255,0.1);
       --shadow-card: 0 10px 30px -10px rgba(0,0,0,0.5);
     }
@@ -37,237 +43,302 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     
     body {
-      font-family: "新儀永樂大典體", "Xinyi Yongle Dadian", "KaiTi", "Noto Serif TC", serif;
+      font-family: "Noto Serif TC", "Songti TC", serif; /* 全站主要使用宋體，提升氣質 */
       background-color: var(--bg-color);
       color: var(--text-main);
       line-height: 1.8;
-      overflow-x: hidden; /* 隱藏水平卷軸 */
+      overflow-x: hidden;
+      /* 日式紙張紋理 */
+      background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
     }
 
-    /* --- 1. 開場動畫 --- */
+    /* --- 1. 開場布幕動畫 --- */
     .curtain {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background-color: var(--primary); z-index: 9999;
+      background-color: var(--primary); 
+      z-index: 9999;
       display: flex; justify-content: center; align-items: center;
-      animation: slideUp 1s cubic-bezier(0.7, 0, 0.3, 1) 1.5s forwards;
+      animation: slideUp 1.2s cubic-bezier(0.77, 0, 0.175, 1) 1.5s forwards;
     }
     .curtain-text {
-      color: #fff; font-family: 'Noto Serif TC'; font-size: 2.5rem; letter-spacing: 5px; opacity: 0;
-      animation: textFade 0.8s ease-out 0.3s forwards;
+      color: #f4f4f0; font-size: 2rem; letter-spacing: 8px; opacity: 0; font-weight: 300;
+      animation: textFade 1s ease-out 0.2s forwards;
     }
     @keyframes slideUp { to { transform: translateY(-100%); } }
     @keyframes textFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* --- 2. Hero 區塊 (固定在底層，創造上滑感) --- */
+    /* --- 2. Hero 區塊 (固定底層) --- */
     .hero-fixed {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100vh;
         display: flex; flex-direction: column;
         justify-content: center; align-items: center;
-        z-index: 0; /* 在最底層 */
+        z-index: 0;
         opacity: 1;
         transition: opacity 0.5s ease;
-        /* 背景紋理 */
-        background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
-        background-size: 30px 30px;
+        background-color: var(--bg-color); /* 與 Body 同色，保持連貫 */
     }
     
-    /* 當內容蓋過時，讓 Hero 淡出 */
+    /* 內容蓋過時淡出 */
     body.scrolled .hero-fixed { opacity: 0; }
 
     .hero-avatar {
-        width: 180px; height: 180px;
+        width: 160px; height: 160px;
         border-radius: 50%; object-fit: cover;
-        border: 4px solid var(--card-bg);
-        box-shadow: var(--shadow-hover);
-        margin-bottom: 20px;
-        animation: zoomIn 1s ease-out 1.6s backwards;
+        border: 1px solid var(--primary);
+        padding: 5px; /* 雙圈留白效果 */
+        box-shadow: var(--shadow-card);
+        margin-bottom: 30px;
+        animation: zoomIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) 1.6s backwards;
     }
     .hero-title {
-        font-size: 3.5rem; font-weight: 700; margin: 0; letter-spacing: 2px;
-        animation: fadeUp 1s ease-out 1.7s backwards;
-        color: var(--text-main);
-    }
-    .hero-subtitle {
-        font-family: 'Noto Sans TC'; font-size: 1.2rem; color: var(--primary);
-        background: rgba(95, 113, 97, 0.1); padding: 5px 20px; border-radius: 50px;
-        margin-top: 15px;
+        font-size: 3.5rem; font-weight: 900; margin: 0; letter-spacing: 3px;
+        color: var(--primary-dark);
         animation: fadeUp 1s ease-out 1.8s backwards;
     }
+    .hero-subtitle {
+        font-family: 'Noto Sans TC', sans-serif;
+        font-size: 1rem; color: var(--text-muted);
+        margin-top: 15px; letter-spacing: 2px;
+        text-transform: uppercase;
+        animation: fadeUp 1s ease-out 2s backwards;
+        position: relative;
+        padding-top: 15px;
+    }
+    .hero-subtitle::before {
+        content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+        width: 40px; height: 1px; background-color: var(--accent);
+    }
+    
     .scroll-hint {
-        position: absolute; bottom: 40px; opacity: 0.5; animation: bounce 2s infinite; font-size: 0.9rem;
+        position: absolute; bottom: 50px; 
+        font-family: 'Noto Sans TC'; font-size: 0.8rem; color: var(--primary);
+        opacity: 0.6; animation: bounce 2.5s infinite; letter-spacing: 2px;
     }
     @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
-    @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-    @keyframes fadeUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    @keyframes fadeUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-    /* --- 3. 縮小後的置頂導航 (Sticky Nav) --- */
+    /* --- 3. 置頂導航 (Sticky Nav) --- */
     .sticky-nav {
         position: fixed; top: 0; left: 0; width: 100%; height: 70px;
-        background: rgba(255,255,255,0.9);
-        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-        border-bottom: 1px solid rgba(0,0,0,0.05);
+        background: rgba(247, 246, 245, 0.9); /* 與背景色一致的半透明 */
+        backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border-color);
         z-index: 100;
         display: flex; align-items: center; justify-content: center;
-        transform: translateY(-100%); /* 預設隱藏 */
-        transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        transform: translateY(-100%); 
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    [data-theme="dark"] .sticky-nav { background: rgba(30,30,30,0.9); }
-    
-    /* 捲動後顯示 */
+    [data-theme="dark"] .sticky-nav { background: rgba(26, 25, 24, 0.9); }
     body.scrolled .sticky-nav { transform: translateY(0); }
 
     .nav-content {
         width: 100%; max-width: 1000px; padding: 0 20px;
         display: flex; align-items: center; justify-content: space-between;
     }
-    .nav-profile { display: flex; align-items: center; gap: 15px; }
-    .nav-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
-    .nav-name { font-weight: 700; font-size: 1.1rem; color: var(--text-main); }
-    .nav-links { display: flex; gap: 15px; }
+    .nav-profile { display: flex; align-items: center; gap: 12px; }
+    .nav-avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 1px solid var(--primary); }
+    .nav-name { font-weight: 700; font-size: 1rem; color: var(--text-main); letter-spacing: 1px; }
+    .nav-links { display: flex; gap: 20px; }
     .nav-btn {
-        text-decoration: none; font-size: 0.9rem; font-family: 'Noto Sans TC';
-        color: var(--text-muted); padding: 5px 10px; border-radius: 8px; cursor: pointer;
-        border: none; background: none;
+        text-decoration: none; font-size: 0.85rem; font-family: 'Noto Sans TC';
+        color: var(--text-muted); cursor: pointer;
+        transition: 0.3s; position: relative;
     }
-    .nav-btn:hover { color: var(--primary); }
+    .nav-btn::after {
+        content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
+        background-color: var(--accent); transition: width 0.3s;
+    }
+    .nav-btn:hover { color: var(--accent); }
+    .nav-btn:hover::after { width: 100%; }
 
-    /* --- 4. 主要內容區 (Main Content) --- */
+    /* --- 4. 主要內容區 (上滑覆蓋層) --- */
     .main-wrapper {
         position: relative; z-index: 1;
-        margin-top: 100vh; /* 關鍵：把內容推到視窗下方 */
+        margin-top: 100vh;
         background-color: var(--bg-color);
-        border-radius: 40px 40px 0 0; /* 頂部圓角 */
-        box-shadow: 0 -10px 40px rgba(0,0,0,0.05);
-        padding-top: 80px;
-        padding-bottom: 60px;
+        /* 使用利休鼠色做一個細緻的頂部邊框 */
+        border-top: 1px solid var(--primary);
+        box-shadow: 0 -20px 60px rgba(0,0,0,0.05);
+        padding-top: 100px; padding-bottom: 80px;
         min-height: 100vh;
     }
 
     .container {
-        max-width: 1000px; margin: 0 auto; padding: 0 20px;
-        display: grid; grid-template-columns: 2.4fr 1fr; gap: 50px;
+        max-width: 1000px; margin: 0 auto; padding: 0 30px;
+        display: grid; grid-template-columns: 2.5fr 1fr; gap: 60px;
         align-items: start;
     }
 
+    /* 內容入場動畫 */
+    .animate-in {
+        opacity: 0; transform: translateY(40px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .animate-in.visible { opacity: 1; transform: translateY(0); }
+
     .section-header {
-        font-size: 1.6rem; font-weight: 700; color: var(--text-main);
-        margin-bottom: 25px; padding-bottom: 10px;
-        border-bottom: 2px solid var(--border-color);
+        font-size: 1.4rem; font-weight: 700; color: var(--primary);
+        margin-bottom: 40px; padding-bottom: 15px;
+        border-bottom: 1px solid var(--border-color);
+        letter-spacing: 2px;
     }
 
-    /* --- 5. 互動卡片 --- */
-    .card-container { display: flex; flex-direction: column; gap: 20px; }
+    /* --- 5. 互動卡片 (Refined) --- */
+    .card-container { display: flex; flex-direction: column; gap: 30px; }
     
     .card {
         background: var(--card-bg);
         border-radius: var(--radius);
-        padding: 30px;
+        padding: 35px 40px;
         border: 1px solid var(--border-color);
-        box-shadow: var(--shadow-card);
+        /* 預設無陰影，強調平面質感 */
+        box-shadow: none;
         cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         position: relative; overflow: hidden;
         display: flex; flex-direction: column;
     }
     
-    /* About Me 卡片 */
+    /* About Me 專屬樣式 */
     .card-about {
-        border-left: 5px solid var(--primary);
-        background: linear-gradient(to right, rgba(95, 113, 97, 0.03), rgba(255,255,255,0));
+        background-color: var(--card-bg);
+        border-left: 4px solid var(--primary);
+        position: relative;
+    }
+    .card-about::before {
+        content: '"'; position: absolute; top: 10px; right: 20px;
+        font-size: 6rem; color: var(--border-color); opacity: 0.3;
+        font-family: serif; line-height: 1;
     }
 
+    /* Hover 效果：浮起 + 柔和陰影 */
     .card:hover {
-        transform: translateY(-5px) scale(1.01);
+        transform: translateY(-6px);
         box-shadow: var(--shadow-hover);
-        border-color: var(--primary);
+        border-color: rgba(180, 93, 64, 0.3); /* 微微的紅樺色光暈 */
     }
-    .card::after {
-        content: '↗'; position: absolute; top: 20px; right: 20px;
-        font-size: 1.2rem; color: var(--border-color); transition: 0.3s;
-    }
-    .card:hover::after { color: var(--accent); transform: translate(3px, -3px); }
+
+    .card-content-wrapper { margin-bottom: 20px; }
 
     .card-tag {
-        font-family: 'Noto Sans TC'; font-size: 0.85rem; font-weight: 500;
-        color: var(--primary); display: block; margin-bottom: 8px;
+        font-family: 'Noto Sans TC'; font-size: 0.8rem; font-weight: 500;
+        color: var(--accent); display: inline-block; margin-bottom: 10px;
+        border: 1px solid var(--accent); padding: 2px 10px; border-radius: 20px;
+        letter-spacing: 1px;
     }
     .card-title {
-        font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 0 0 10px 0;
+        font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin: 0 0 12px 0;
+        transition: color 0.3s;
     }
+    .card:hover .card-title { color: var(--accent); }
+    
     .card-summary {
-        font-size: 1.05rem; color: var(--text-muted); margin: 0 0 15px 0;
-        line-height: 1.6;
+        font-family: 'Noto Sans TC';
+        font-size: 1rem; color: var(--text-muted); margin: 0;
+        line-height: 1.7;
     }
 
-    /* 底部按鈕 (獨立一列) */
+    /* 底部按鈕區 */
     .card-footer {
-        margin-top: auto; padding-top: 15px; border-top: 1px dashed var(--border-color);
+        margin-top: auto; padding-top: 20px; 
+        border-top: 1px solid var(--border-color);
         display: flex; justify-content: flex-end;
-        opacity: 0.6; transition: opacity 0.3s;
+        opacity: 0.5; transition: opacity 0.3s;
     }
     .card:hover .card-footer { opacity: 1; }
+    
     .card-action {
-        font-size: 0.9rem; font-family: 'Noto Sans TC'; font-weight: 600;
-        color: var(--accent); display: flex; align-items: center; gap: 5px;
+        font-size: 0.9rem; font-family: 'Noto Sans TC'; font-weight: 500;
+        color: var(--text-main); display: flex; align-items: center; gap: 8px;
     }
-    .card:hover .card-action span { transform: translateX(3px); transition: 0.3s; }
+    .card-action span { 
+        display: inline-block; width: 20px; height: 20px; border-radius: 50%; 
+        background: var(--accent); color: white; text-align: center; line-height: 20px; font-size: 12px;
+        transition: transform 0.3s;
+    }
+    .card:hover .card-action span { transform: rotate(90deg); background: var(--primary); }
 
-    /* 網格 */
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
 
     /* --- 6. 側邊欄 --- */
     .sidebar { position: sticky; top: 100px; }
-    .action-list { display: flex; flex-direction: column; gap: 12px; }
+    .action-list { display: flex; flex-direction: column; gap: 15px; }
     
     .btn {
         display: flex; align-items: center; justify-content: center; gap: 10px;
-        width: 100%; padding: 16px; text-decoration: none;
-        border-radius: 16px; font-weight: 700; font-size: 1.05rem;
-        font-family: 'Noto Sans TC', sans-serif;
-        transition: all 0.2s; cursor: pointer;
+        width: 100%; padding: 14px; text-decoration: none;
+        border-radius: 8px; font-weight: 500; font-size: 0.95rem;
+        font-family: 'Noto Sans TC', sans-serif; letter-spacing: 1px;
+        transition: all 0.3s ease; cursor: pointer;
     }
-    .btn-primary { background: var(--text-main); color: #fff; border: 2px solid var(--text-main); }
-    .btn-primary:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-3px); }
-    .btn-ghost { background: var(--card-bg); color: var(--text-main); border: 2px solid var(--border-color); }
-    .btn-ghost:hover { border-color: var(--text-main); transform: translateY(-3px); }
+    /* 實心按鈕 - 紅樺色 */
+    .btn-primary {
+        background: var(--accent); color: #fff; border: 1px solid var(--accent);
+    }
+    .btn-primary:hover {
+        background: #9c4d33; border-color: #9c4d33; transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(180, 93, 64, 0.3);
+    }
+    /* 幽靈按鈕 - 利休鼠色框 */
+    .btn-ghost {
+        background: transparent; color: var(--text-main); border: 1px solid var(--border-color);
+    }
+    .btn-ghost:hover {
+        border-color: var(--primary); color: var(--primary); background: #fff;
+        transform: translateY(-2px);
+    }
 
     /* --- 7. 彈出視窗 (Modal) --- */
     .modal-overlay {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(247, 246, 245, 0.4); /* 淺色遮罩 */
         backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
         z-index: 10000; opacity: 0; visibility: hidden;
-        transition: all 0.4s ease;
+        transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
         display: flex; justify-content: center; align-items: center; padding: 20px;
     }
-    .modal-overlay.active { opacity: 1; visibility: visible; background: rgba(255, 255, 255, 0.6); }
-    [data-theme="dark"] .modal-overlay.active { background: rgba(0, 0, 0, 0.6); }
+    .modal-overlay.active { opacity: 1; visibility: visible; }
+    [data-theme="dark"] .modal-overlay { background: rgba(0,0,0,0.6); }
 
     .modal-content {
         background: var(--card-bg); width: 100%; max-width: 750px;
-        border-radius: 24px; padding: 50px;
-        box-shadow: 0 30px 60px rgba(0,0,0,0.25);
-        transform: scale(0.9) translateY(30px);
-        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        position: relative; border: 1px solid rgba(0,0,0,0.05);
+        border-radius: 16px; padding: 60px;
+        box-shadow: 0 40px 80px rgba(0,0,0,0.15);
+        transform: scale(0.95) translateY(20px);
+        transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        position: relative; border: 1px solid var(--border-color);
         max-height: 90vh; overflow-y: auto;
     }
     .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
 
     .close-btn {
-        position: absolute; top: 20px; right: 20px;
+        position: absolute; top: 25px; right: 25px;
         width: 40px; height: 40px; border-radius: 50%;
-        background: rgba(0,0,0,0.05); border: none;
-        font-size: 1.5rem; cursor: pointer; color: var(--text-muted); transition: 0.2s;
+        background: transparent; border: 1px solid var(--border-color);
+        font-size: 1.2rem; cursor: pointer; color: var(--text-muted);
+        transition: 0.3s; display: flex; justify-content: center; align-items: center;
     }
-    .close-btn:hover { background: var(--accent); color: #fff; transform: rotate(90deg); }
+    .close-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); transform: rotate(90deg); }
 
-    .modal-header-tag { color: var(--accent); font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
-    .modal-title { font-size: 2rem; font-weight: 700; color: var(--text-main); margin: 10px 0 20px 0; line-height: 1.3; }
-    .modal-body { font-size: 1.1rem; color: var(--text-muted); line-height: 1.9; }
-    .modal-body ul { padding-left: 25px; margin-bottom: 20px; }
-    .modal-body li { margin-bottom: 10px; }
+    /* Modal 內容排版 */
+    .modal-header-tag { 
+        color: var(--accent); font-family: 'Noto Sans TC'; font-weight: 500; font-size: 0.9rem; 
+        letter-spacing: 1px; margin-bottom: 10px; display: block;
+    }
+    .modal-title { 
+        font-size: 2.2rem; font-weight: 700; color: var(--primary-dark); 
+        margin: 0 0 30px 0; line-height: 1.3; border-bottom: 2px solid var(--primary); 
+        padding-bottom: 20px; display: inline-block;
+    }
+    .modal-body { 
+        font-size: 1.1rem; color: var(--text-main); line-height: 2; font-family: "Noto Serif TC", serif;
+    }
+    .modal-body ul { padding-left: 20px; margin-bottom: 25px; }
+    .modal-body li { margin-bottom: 12px; padding-left: 10px; }
+    .modal-body p { margin-bottom: 20px; }
+    .modal-body strong { color: var(--accent); font-weight: 600; }
 
     /* --- 8. 微光特效 --- */
     .sparkle {
@@ -278,28 +349,29 @@
     }
     @keyframes sparkleAnim { 0% { transform: scale(0); opacity: 1; } 100% { transform: scale(1); opacity: 0; } }
 
+    /* Theme Switch */
     .theme-switch {
-        position: fixed; bottom: 30px; right: 30px; font-size: 2rem;
+        position: fixed; bottom: 30px; right: 30px; font-size: 1.5rem;
         background: var(--card-bg); width: 50px; height: 50px; border-radius: 50%;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 1px solid var(--border-color);
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1); border: 1px solid var(--border-color);
         cursor: pointer; z-index: 100; display: flex; justify-content: center; align-items: center;
-        transition: transform 0.3s;
+        transition: transform 0.3s; color: var(--primary);
     }
-    .theme-switch:hover { transform: rotate(20deg) scale(1.1); }
+    .theme-switch:hover { transform: rotate(15deg) scale(1.1); color: var(--accent); }
 
     /* RWD */
     @media (max-width: 900px) {
         .hero-title { font-size: 2.5rem; }
-        .container { grid-template-columns: 1fr; padding: 0; gap: 30px; }
+        .container { grid-template-columns: 1fr; padding: 0; gap: 40px; }
         .sidebar { position: static; margin-top: 40px; }
         .grid-2 { grid-template-columns: 1fr; }
         .main-wrapper { padding-top: 40px; margin-top: 85vh; }
         .modal-content { padding: 30px; }
-        .nav-links { display: none; } /* 手機版隱藏導航文字 */
+        .nav-links { display: none; }
     }
     @media print {
         .curtain, .hero-fixed, .sticky-nav, .sidebar, .theme-switch, .card-footer { display: none; }
-        .main-wrapper { margin-top: 0; box-shadow: none; }
+        .main-wrapper { margin-top: 0; box-shadow: none; border: none; }
         .card { box-shadow: none; border: 1px solid #000; }
         .modal-overlay { display: none; }
     }
@@ -318,15 +390,15 @@
             <span class="nav-name">陳妤恩</span>
         </div>
         <div class="nav-links">
-            <a href="mailto:annchen0113@mail.com" class="nav-btn">聯絡我</a>
-            <button onclick="downloadVcard()" class="nav-btn">下載簡歷</button>
+            <button class="nav-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})">Top</button>
+            <button onclick="downloadVcard()" class="nav-btn">Download CV</button>
         </div>
     </div>
 </nav>
 
 <div class="hero-fixed">
     <img src="144448.jpg" class="hero-avatar" alt="陳妤恩">
-    <h1 class="hero-title">陳妤恩 <span style="font-size: 1.8rem; font-weight: 400;">Yu-En</span></h1>
+    <h1 class="hero-title">陳妤恩 <span style="font-size: 1.8rem; font-weight: 300; font-family:'Noto Serif TC'; color:var(--primary);">Yu-En</span></h1>
     <div class="hero-subtitle">美術與數據的跨領域實踐者</div>
     <div class="scroll-hint">↓ Scroll to Explore</div>
 </div>
@@ -335,13 +407,13 @@
     <div class="container">
         
         <main>
-            <section style="margin-bottom: 40px;">
+            <section class="animate-in" style="margin-bottom: 50px;">
                 <div class="card card-about" onclick="handleCardClick(event, 'about')">
                     <div class="card-content-wrapper">
                         <span class="card-tag">Profile ｜ 關於我</span>
                         <h3 class="card-title">從畫筆到數據：跨領域的學習旅程</h3>
                         <p class="card-summary">
-                            出身美術班背景，後來投身於多元學科的探索。這段獨特的跨域經歷，讓我學會用「設計思維」去解決「邏輯問題」。
+                            出身美術班背景，高中轉向數理資訊的探索。這段跨域經歷，讓我學會將「設計思維」融入「邏輯分析」。
                         </p>
                     </div>
                     <div class="card-footer">
@@ -350,7 +422,7 @@
                 </div>
             </section>
 
-            <section>
+            <section class="animate-in">
                 <div class="section-header">經歷與活動</div>
                 <div class="card-container">
                     
@@ -369,7 +441,7 @@
                         <div class="card-content-wrapper">
                             <span class="card-tag">High School ｜ 領導經驗</span>
                             <h3 class="card-title">社團幹部與領導經驗</h3>
-                            <p class="card-summary">擔任科學研究社、模擬聯合國社成員，以及班級環保股長與學科小老師，具備溝通協調力。</p>
+                            <p class="card-summary">擔任科學研究社、模擬聯合國社成員，以及班級環保股長與學科小老師。</p>
                         </div>
                         <div class="card-footer">
                             <div class="card-action">View Details <span>＋</span></div>
@@ -401,7 +473,7 @@
                 </div>
             </section>
 
-            <section style="margin-top: 60px;">
+            <section class="animate-in" style="margin-top: 80px;">
                 <div class="section-header">精選課程學習成果</div>
                 <div class="grid-2">
                     
@@ -454,8 +526,8 @@
         </main>
 
         <aside class="sidebar">
-            <div class="card" style="text-align: center;">
-                <h3 style="margin:0 0 20px 0; font-family:'Noto Sans TC'; color:var(--text-main);">聯絡與下載</h3>
+            <div class="card" style="text-align: center; padding: 40px 30px;">
+                <h3 style="margin:0 0 25px 0; font-family:'Noto Serif TC'; color:var(--primary); font-size: 1.4rem;">聯絡與下載</h3>
                 <div class="action-list">
                     <a class="btn btn-primary" href="mailto:annchen0113@mail.com">📩 郵件聯絡</a>
                     <a class="btn btn-ghost" href="https://instagram.com/" target="_blank">💬 IG 私訊</a>
@@ -463,7 +535,7 @@
                     <button class="btn btn-ghost" onclick="downloadVcard()">📎 下載聯絡卡</button>
                     <a class="btn btn-ghost" href="https://github.com/" target="_blank">🐱 GitHub</a>
                 </div>
-                <p style="font-size:0.85rem; color:var(--text-muted); margin-top:20px;">Updated: 2025</p>
+                <p style="font-size:0.8rem; color:var(--text-muted); margin-top:30px; opacity: 0.7;">Updated: 2025</p>
             </div>
         </aside>
 
@@ -480,26 +552,36 @@
 </div>
 
 <script>
-    // --- 捲動監聽 ---
+    // --- 捲動監聽 (用於切換 Sticky Nav 與 Hero) ---
     window.addEventListener('scroll', () => {
         const scrolled = window.scrollY > 300;
         document.body.classList.toggle('scrolled', scrolled);
+        
+        // 簡單的入場動畫觸發
+        const elements = document.querySelectorAll('.animate-in');
+        elements.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if(rect.top < window.innerHeight - 50) {
+                el.classList.add('visible');
+            }
+        });
     });
 
-    // --- 資料庫 (已更新：移除雜訊、移除獲獎強調、移除理工/申請字眼) ---
+    // --- 資料庫 ---
     const data = {
         'about': {
             tag: 'About Me | 個人特質',
             title: '從畫筆到數據：跨領域的學習旅程',
             body: `
-                <p style="font-size:1.15rem; color:#2b2b2b;">「理性與感性並非對立，而是互補。」</p>
-                [cite_start]<p>從小在美術班的環境長大，習慣用畫筆描繪世界 [cite: 18-19]。而在成長過程中，我開始投身於多元學科的探索，這些經歷拓展了我的視野。</p>
-                <h3>為什麼選擇這條路？</h3>
+                <p style="font-size:1.2rem; color:var(--text-main); font-family:'Noto Serif TC'; margin-bottom:20px;">「理性與感性並非對立，而是互補。」</p>
+                <p>從小在美術班的環境長大，習慣用畫筆描繪世界。而在成長過程中，我開始投身於數理與資訊的探索，這些經歷拓展了我的視野。</p>
+                <hr style="border:0; border-top:1px dashed var(--border-color); margin:25px 0;">
+                <h3 style="color:var(--primary); font-size:1.1rem; margin-bottom:15px;">為什麼選擇這條路？</h3>
                 <ul>
-                    [cite_start]<li><strong>跨域融合：</strong> 我發現資訊技術不僅是冷冰冰的代碼，它能與我的美術背景結合，創造出更具溫度與易用性的介面設計 (UI/UX) [cite: 197-198]。</li>
-                    [cite_start]<li><strong>批判性思考：</strong> 在科學研究社與模擬聯合國的經驗中，我學會了如何理性分析問題、拆解架構，並提出解決方案 [cite: 25-29]。</li>
+                    <li><strong>跨域融合：</strong> 我發現資訊技術不僅是冷冰冰的代碼，它能與我的美術背景結合，創造出更具溫度與易用性的介面設計 (UI/UX)。</li>
+                    <li><strong>批判性思考：</strong> 在科學研究社與模擬聯合國的經驗中，我學會了如何理性分析問題、拆解架構，並提出解決方案。</li>
                 </ul>
-                <h3>對未來的期許</h3>
+                <h3 style="color:var(--primary); font-size:1.1rem; margin-bottom:15px; margin-top:25px;">對未來的期許</h3>
                 <p>我期許能將「程式邏輯」與「視覺美學」深度結合，運用數據解決問題，成為一位能用數據說故事的跨領域人才。</p>
             `
         },
@@ -507,12 +589,12 @@
             tag: '2022 | 專題研究',
             title: '國家圖書館 青年學者養成營',
             body: `
-                <p style="color:var(--accent); font-weight:700; font-size:1.2rem;">專題研究成果發表</p>
+                <p style="color:var(--accent); font-weight:700; font-size:1.1rem; margin-bottom:20px;">專題研究成果發表</p>
                 <p>這是一個極具挑戰性的學術養成計畫，我們需要針對特定議題進行嚴謹的研究。</p>
                 <ul>
                     <li><strong>研究主題：</strong>「遠距教學是否能降低城鄉教育資源落差」。</li>
                     <li><strong>執行內容：</strong>設計問卷收集了 260 份樣本，負責資料查找、邏輯統整與圖表分析。</li>
-                    [cite_start]<li><strong>成果發表：</strong>最終進行口頭發表，接受教授提問並獲得肯定 [cite: 36, 105, 114, 1528-1540]。</li>
+                    <li><strong>成果發表：</strong>最終進行口頭發表，接受教授提問並獲得高度肯定。</li>
                 </ul>
             `
         },
@@ -522,9 +604,9 @@
             body: `
                 <p>在高中期間，我積極參與多元社團與班級事務，培養了解決問題與溝通協調的能力。</p>
                 <ul>
-                    [cite_start]<li><strong>科學研究社：</strong> 培養實驗設計與邏輯推理能力，學習將大問題拆解為可執行的步驟 [cite: 26, 824-826]。</li>
-                    [cite_start]<li><strong>模擬聯合國社：</strong> 學習國際議事規則、協商談判技巧與撰寫文案 [cite: 25, 818-823]。</li>
-                    [cite_start]<li><strong>班級幹部：</strong> 擔任環保股長與數學/化學小老師，協助老師教學並解決同學課業問題 [cite: 20-22]。</li>
+                    <li><strong>科學研究社：</strong> 培養實驗設計與邏輯推理能力，學習將大問題拆解為可執行的步驟。</li>
+                    <li><strong>模擬聯合國社：</strong> 學習國際議事規則、協商談判技巧與撰寫文案。</li>
+                    <li><strong>班級幹部：</strong> 擔任環保股長與數學/化學小老師，協助老師教學並解決同學課業問題。</li>
                 </ul>
             `
         },
@@ -534,9 +616,9 @@
             body: `
                 <p>為了增進資訊領域的實戰能力，我主動參與了多項校外研習。</p>
                 <ul>
-                    [cite_start]<li><strong>Advanced CyberSecurity Day：</strong> 學習 Linux 系統操作與 Python 基礎資安分析實務 [cite: 51-54, 1472-1475]。</li>
+                    <li><strong>Advanced CyberSecurity Day：</strong> 學習 Linux 系統操作與 Python 基礎資安分析實務。</li>
                     <li><strong>HPC x AI 夏令營：</strong> 接觸高速計算與人工智慧的基礎應用。</li>
-                    [cite_start]<li><strong>R 語言證書：</strong> 修習 ewant「R語言新手村」秋季班並取得修課通過證明，具備將數據轉化為圖表的能力 [cite: 33, 132-136]。</li>
+                    <li><strong>R 語言證書：</strong> 修習 ewant「R語言新手村」秋季班並取得修課通過證明，具備將數據轉化為圖表的能力。</li>
                 </ul>
             `
         },
@@ -548,7 +630,7 @@
                 <ul>
                     <li><strong>107學年度：</strong> 全國學生美術比賽 平面設計類 參賽與肯定。</li>
                     <li><strong>106學年度：</strong> 全國學生美術比賽 漫畫類 參賽與肯定。</li>
-                    [cite_start]<li>具備版畫、水墨、素描等多媒材創作能力 [cite: 60-62, 867-871]。</li>
+                    <li>具備版畫、水墨、素描等多媒材創作能力。</li>
                 </ul>
             `
         },
@@ -559,9 +641,9 @@
                 <p>這是一個結合社會觀察與數據分析的研究專案。</p>
                 <ul>
                     <li><strong>研究動機：</strong> 探討台灣行動支付普及率及其背後的消費者行為模式。</li>
-                    [cite_start]<li><strong>分析重點：</strong> 比較 Line Pay 與街口支付在不同年齡層的使用偏好 [cite: 1234-1266]。</li>
-                    [cite_start]<li><strong>深入探討：</strong> 研究科技接受度模型 (TAM) 與使用者的痛點（如資安疑慮）[cite: 1278-1283]。</li>
-                    [cite_start]<li><strong>資料來源：</strong> 閱讀大量國內外文獻與數據報告進行統整 [cite: 1156-1166]。</li>
+                    <li><strong>分析重點：</strong> 比較 Line Pay 與街口支付在不同年齡層的使用偏好。</li>
+                    <li><strong>深入探討：</strong> 研究科技接受度模型 (TAM) 與使用者的痛點（如資安疑慮）。</li>
+                    <li><strong>資料來源：</strong> 閱讀大量國內外文獻與數據報告進行統整。</li>
                 </ul>
             `
         },
@@ -573,7 +655,7 @@
                 <ul>
                     <li><strong>困難點：</strong> 相關中文文獻極少，需閱讀外文期刊理解原理。</li>
                     <li><strong>實驗設計：</strong> 探討擺重與下降距離的關係，並設計實驗裝置。</li>
-                    [cite_start]<li><strong>克服誤差：</strong> 針對學校器材的限制，運用統計方法與模型修正誤差 [cite: 68-81, 994-1037]。</li>
+                    <li><strong>克服誤差：</strong> 針對學校器材的限制，運用統計方法與模型修正誤差。</li>
                 </ul>
             `
         },
@@ -586,7 +668,7 @@
                     <li><strong>使用平台：</strong> Popworld (蹦世界)。</li>
                     <li><strong>場景設定：</strong> 花蓮慶修院、好客藝術村。</li>
                     <li><strong>負責內容：</strong> 故事腳本發想、謎題關卡設計。</li>
-                    [cite_start]<li><strong>目標：</strong> 透過遊戲化的方式，吸引年輕遊客深入了解花蓮的日治時期歷史文化 [cite: 91-94, 906-960]。</li>
+                    <li><strong>目標：</strong> 透過遊戲化的方式，吸引年輕遊客深入了解花蓮的日治時期歷史文化。</li>
                 </ul>
             `
         },
@@ -596,17 +678,17 @@
             body: `
                 <p>關注永續議題，分析台灣綠能發展的可能性。</p>
                 <ul>
-                    [cite_start]<li><strong>技術分析：</strong> 研究黑潮發電與海洋溫差能的技術原理與瓶頸 [cite: 287, 415-430]。</li>
-                    [cite_start]<li><strong>策略探討：</strong> 探討台灣邁向 2050 淨零排放的綠能策略與挑戰 [cite: 282-283, 311-312]。</li>
+                    <li><strong>技術分析：</strong> 研究黑潮發電與海洋溫差能的技術原理與瓶頸。</li>
+                    <li><strong>策略探討：</strong> 探討台灣邁向 2050 淨零排放的綠能策略與挑戰。</li>
                 </ul>
             `
         }
     };
 
-    // --- 微光特效 ---
+    // --- 微光特效 (Sparkle) ---
     function createBurst(x, y) {
         const particleCount = 12;
-        const colors = ['#D66D4F', '#5F7161', '#FFD700', '#FFFFFF']; 
+        const colors = ['#B45D40', '#887F7A', '#D8C6BE']; // 配合利休鼠色系
 
         for (let i = 0; i < particleCount; i++) {
             const particle = document.createElement('div');
@@ -615,7 +697,7 @@
 
             const angle = Math.random() * Math.PI * 2;
             const velocity = 30 + Math.random() * 50; 
-            const size = 4 + Math.random() * 4;
+            const size = 3 + Math.random() * 4;
             const color = colors[Math.floor(Math.random() * colors.length)];
 
             particle.style.left = `${x}px`;
@@ -631,7 +713,7 @@
                 { transform: 'translate(0, 0) scale(1)', opacity: 1 },
                 { transform: `translate(${tx}px, ${ty}px) scale(0)`, opacity: 0 }
             ], {
-                duration: 600 + Math.random() * 200,
+                duration: 500 + Math.random() * 300,
                 easing: 'cubic-bezier(0, .9, .57, 1)',
                 fill: 'forwards'
             });
@@ -656,7 +738,7 @@
         if(!content) return;
 
         modalInject.innerHTML = `
-            <div class="modal-header-tag">${content.tag}</div>
+            <span class="modal-header-tag">${content.tag}</span>
             <h2 class="modal-title">${content.title}</h2>
             <div class="modal-body">${content.body}</div>
         `;
@@ -700,6 +782,12 @@ END:VCARD`;
         a.click();
         a.remove();
     }
+    
+    // 觸發入場動畫
+    setTimeout(() => {
+        const els = document.querySelectorAll('.animate-in');
+        els.forEach(el => el.classList.add('visible'));
+    }, 2200); // 等待開場動畫結束
 </script>
 
 </body>
