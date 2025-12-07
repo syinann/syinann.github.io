@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" data-theme="light">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,22 +10,20 @@
   <style>
     :root {
       /* --- 利休鼠配色計畫 --- */
-      --primary: #887F7A;        /* 利休鼠 (Rikyunezumi) - 主色 */
+      --primary: #887F7A;        /* 利休鼠 - 主色 */
       --primary-dark: #5E5552;   /* 深灰褐 - 文字/邊框 */
       --accent: #B45D40;         /* 紅樺色 - 強調/按鈕 */
-      --accent-soft: #D8C6BE;    /* 淺藕色 - 裝飾背景 */
       
       --bg-color: #F7F6F5;       /* 練色 - 溫潤米白背景 */
       --card-bg: #FFFFFF;        /* 純白卡片 */
       --text-main: #3A322F;      /* 接近黑的深褐 */
-      --text-muted: #757575;     /* 中灰 */
+      --text-muted: #666666;     /* 中灰 (優化：稍微加深以提高對比度) */
       
-      --border-color: rgba(136, 127, 122, 0.2); /* 利休鼠的淡化版 */
+      --border-color: rgba(136, 127, 122, 0.2);
       
       /* --- 陰影與圓角 --- */
-      --shadow-card: 0 10px 30px -10px rgba(60, 50, 40, 0.08);
       --shadow-hover: 0 25px 50px -12px rgba(180, 93, 64, 0.15);
-      --radius: 12px; /* 稍微方一點，更顯俐落 */
+      --radius: 12px;
     }
 
     [data-theme="dark"] {
@@ -37,19 +35,19 @@
       --text-main: #EAEAEA;
       --text-muted: #A0A0A0;
       --border-color: rgba(255,255,255,0.1);
-      --shadow-card: 0 10px 30px -10px rgba(0,0,0,0.5);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     
     body {
-      font-family: "Noto Serif TC", "Songti TC", serif; /* 全站主要使用宋體，提升氣質 */
+      font-family: "Noto Serif TC", "Songti TC", serif;
       background-color: var(--bg-color);
       color: var(--text-main);
       line-height: 1.8;
       overflow-x: hidden;
-      /* 日式紙張紋理 */
+      /* 日式紙張紋理 - 疊加在背景色上 */
       background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      transition: background-color 0.5s ease, color 0.5s ease;
     }
 
     /* --- 1. 開場布幕動畫 --- */
@@ -67,26 +65,64 @@
     @keyframes slideUp { to { transform: translateY(-100%); } }
     @keyframes textFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* --- 2. Hero 區塊 (固定底層) --- */
+    /* --- 2. Hero 區塊 (修改重點) --- */
     .hero-fixed {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100vh;
         display: flex; flex-direction: column;
         justify-content: center; align-items: center;
         z-index: 0;
-        opacity: 1;
-        transition: opacity 0.5s ease;
-        background-color: var(--bg-color); /* 與 Body 同色，保持連貫 */
+        /* 確保背景圖不溢出 */
+        overflow: hidden; 
+        background-color: var(--bg-color); /* 預設背景色，在圖片載入前顯示 */
+        transition: opacity 0.5s ease, background-color 0.5s ease;
     }
     
-    /* 內容蓋過時淡出 */
-    body.scrolled .hero-fixed { opacity: 0; }
+    /* 使用偽元素加入背景圖片，以便獨立控制透明度 */
+    .hero-fixed::before {
+        content: '';
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        /* 在這裡替換您的背景圖片路徑 */
+        background-image: url('IMG_20250811_105316.jpg');
+        background-size: cover;
+        background-position: center;
+        /* 設定透明度：0.3 為 30% 不透明 */
+        opacity: 0.3; 
+        z-index: -2; /* 放在最底層 */
+        filter: grayscale(20%); /* 稍微降低飽和度以配合網站色調 */
+        transition: opacity 0.5s ease;
+    }
+    
+    /* 深色模式時，背景圖再暗一點 */
+    [data-theme="dark"] .hero-fixed::before {
+        opacity: 0.15;
+    }
+
+    /* 加入一個漸層遮罩，確保文字在底部清晰易讀 */
+    .hero-fixed::after {
+        content: '';
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        /* 從透明漸變到下方的實體背景色 */
+        background: linear-gradient(to bottom, transparent 20%, var(--bg-color) 95%);
+        z-index: -1; /* 放在圖片之上，文字之下 */
+        transition: background 0.5s ease;
+    }
+
+    /* 內容蓋過時淡出整層 Hero */
+    body.scrolled .hero-fixed { opacity: 0; pointer-events: none; }
+
+    .hero-content-layer {
+        position: relative; z-index: 1; /* 確保內容在背景圖之上 */
+        display: flex; flex-direction: column; align-items: center;
+    }
 
     .hero-avatar {
         width: 160px; height: 160px;
         border-radius: 50%; object-fit: cover;
         border: 1px solid var(--primary);
-        padding: 5px; /* 雙圈留白效果 */
+        padding: 5px;
+        background: rgba(255,255,255,0.1); /* 微微的背景讓頭像跳脫出來 */
+        backdrop-filter: blur(5px);
         box-shadow: var(--shadow-card);
         margin-bottom: 30px;
         animation: zoomIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) 1.6s backwards;
@@ -95,11 +131,14 @@
         font-size: 3.5rem; font-weight: 900; margin: 0; letter-spacing: 3px;
         color: var(--primary-dark);
         animation: fadeUp 1s ease-out 1.8s backwards;
+        text-shadow: 0 2px 10px rgba(247, 246, 245, 0.3); /* 增加文字光暈提升易讀性 */
     }
+    [data-theme="dark"] .hero-title { text-shadow: 0 2px 10px rgba(0,0,0, 0.5); }
+
     .hero-subtitle {
         font-family: 'Noto Sans TC', sans-serif;
-        font-size: 1rem; color: var(--text-muted);
-        margin-top: 15px; letter-spacing: 2px;
+        font-size: 1.1rem; color: var(--text-main); /* 使用較深的顏色 */
+        margin-top: 15px; letter-spacing: 2px; font-weight: 500;
         text-transform: uppercase;
         animation: fadeUp 1s ease-out 2s backwards;
         position: relative;
@@ -111,9 +150,10 @@
     }
     
     .scroll-hint {
-        position: absolute; bottom: 50px; 
+        position: absolute; bottom: 50px; z-index: 2;
         font-family: 'Noto Sans TC'; font-size: 0.8rem; color: var(--primary);
-        opacity: 0.6; animation: bounce 2.5s infinite; letter-spacing: 2px;
+        opacity: 0.8; animation: bounce 2.5s infinite; letter-spacing: 2px;
+        font-weight: 500;
     }
     @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
     @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -122,15 +162,15 @@
     /* --- 3. 置頂導航 (Sticky Nav) --- */
     .sticky-nav {
         position: fixed; top: 0; left: 0; width: 100%; height: 70px;
-        background: rgba(247, 246, 245, 0.9); /* 與背景色一致的半透明 */
+        background: rgba(247, 246, 245, 0.85); /* 稍微降低透明度 */
         backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
         border-bottom: 1px solid var(--border-color);
         z-index: 100;
         display: flex; align-items: center; justify-content: center;
         transform: translateY(-100%); 
-        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), background 0.5s ease;
     }
-    [data-theme="dark"] .sticky-nav { background: rgba(26, 25, 24, 0.9); }
+    [data-theme="dark"] .sticky-nav { background: rgba(26, 25, 24, 0.85); }
     body.scrolled .sticky-nav { transform: translateY(0); }
 
     .nav-content {
@@ -143,11 +183,11 @@
     .nav-links { display: flex; gap: 20px; }
     .nav-btn {
         text-decoration: none; font-size: 0.85rem; font-family: 'Noto Sans TC';
-        color: var(--text-muted); cursor: pointer;
-        transition: 0.3s; position: relative;
+        color: var(--text-muted); cursor: pointer; background: none; border: none;
+        transition: 0.3s; position: relative; padding: 5px 0;
     }
     .nav-btn::after {
-        content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
+        content: ''; position: absolute; bottom: 0px; left: 0; width: 0; height: 1px;
         background-color: var(--accent); transition: width 0.3s;
     }
     .nav-btn:hover { color: var(--accent); }
@@ -158,11 +198,11 @@
         position: relative; z-index: 1;
         margin-top: 100vh;
         background-color: var(--bg-color);
-        /* 使用利休鼠色做一個細緻的頂部邊框 */
         border-top: 1px solid var(--primary);
         box-shadow: 0 -20px 60px rgba(0,0,0,0.05);
         padding-top: 100px; padding-bottom: 80px;
         min-height: 100vh;
+        transition: background-color 0.5s ease;
     }
 
     .container {
@@ -185,7 +225,7 @@
         letter-spacing: 2px;
     }
 
-    /* --- 5. 互動卡片 (Refined) --- */
+    /* --- 5. 互動卡片 --- */
     .card-container { display: flex; flex-direction: column; gap: 30px; }
     
     .card {
@@ -193,7 +233,6 @@
         border-radius: var(--radius);
         padding: 35px 40px;
         border: 1px solid var(--border-color);
-        /* 預設無陰影，強調平面質感 */
         box-shadow: none;
         cursor: pointer;
         transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -201,7 +240,6 @@
         display: flex; flex-direction: column;
     }
     
-    /* About Me 專屬樣式 */
     .card-about {
         background-color: var(--card-bg);
         border-left: 4px solid var(--primary);
@@ -213,11 +251,10 @@
         font-family: serif; line-height: 1;
     }
 
-    /* Hover 效果：浮起 + 柔和陰影 */
     .card:hover {
         transform: translateY(-6px);
         box-shadow: var(--shadow-hover);
-        border-color: rgba(180, 93, 64, 0.3); /* 微微的紅樺色光暈 */
+        border-color: rgba(180, 93, 64, 0.3);
     }
 
     .card-content-wrapper { margin-bottom: 20px; }
@@ -240,7 +277,6 @@
         line-height: 1.7;
     }
 
-    /* 底部按鈕區 */
     .card-footer {
         margin-top: auto; padding-top: 20px; 
         border-top: 1px solid var(--border-color);
@@ -256,7 +292,7 @@
     .card-action span { 
         display: inline-block; width: 20px; height: 20px; border-radius: 50%; 
         background: var(--accent); color: white; text-align: center; line-height: 20px; font-size: 12px;
-        transition: transform 0.3s;
+        transition: transform 0.3s, background 0.3s;
     }
     .card:hover .card-action span { transform: rotate(90deg); background: var(--primary); }
 
@@ -271,9 +307,8 @@
         width: 100%; padding: 14px; text-decoration: none;
         border-radius: 8px; font-weight: 500; font-size: 0.95rem;
         font-family: 'Noto Sans TC', sans-serif; letter-spacing: 1px;
-        transition: all 0.3s ease; cursor: pointer;
+        transition: all 0.3s ease; cursor: pointer; border: none;
     }
-    /* 實心按鈕 - 紅樺色 */
     .btn-primary {
         background: var(--accent); color: #fff; border: 1px solid var(--accent);
     }
@@ -281,33 +316,32 @@
         background: #9c4d33; border-color: #9c4d33; transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(180, 93, 64, 0.3);
     }
-    /* 幽靈按鈕 - 利休鼠色框 */
     .btn-ghost {
         background: transparent; color: var(--text-main); border: 1px solid var(--border-color);
     }
     .btn-ghost:hover {
-        border-color: var(--primary); color: var(--primary); background: #fff;
+        border-color: var(--primary); color: var(--primary); background: var(--card-bg);
         transform: translateY(-2px);
     }
 
     /* --- 7. 彈出視窗 (Modal) --- */
     .modal-overlay {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(247, 246, 245, 0.4); /* 淺色遮罩 */
-        backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+        background: rgba(247, 246, 245, 0.6); /* 增加遮罩不透明度 */
+        backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
         z-index: 10000; opacity: 0; visibility: hidden;
-        transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         display: flex; justify-content: center; align-items: center; padding: 20px;
     }
     .modal-overlay.active { opacity: 1; visibility: visible; }
-    [data-theme="dark"] .modal-overlay { background: rgba(0,0,0,0.6); }
+    [data-theme="dark"] .modal-overlay { background: rgba(0,0,0,0.7); }
 
     .modal-content {
         background: var(--card-bg); width: 100%; max-width: 750px;
         border-radius: 16px; padding: 60px;
-        box-shadow: 0 40px 80px rgba(0,0,0,0.15);
-        transform: scale(0.95) translateY(20px);
-        transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        box-shadow: 0 40px 80px rgba(0,0,0,0.2);
+        transform: scale(0.92) translateY(30px);
+        transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         position: relative; border: 1px solid var(--border-color);
         max-height: 90vh; overflow-y: auto;
     }
@@ -322,7 +356,6 @@
     }
     .close-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); transform: rotate(90deg); }
 
-    /* Modal 內容排版 */
     .modal-header-tag { 
         color: var(--accent); font-family: 'Noto Sans TC'; font-weight: 500; font-size: 0.9rem; 
         letter-spacing: 1px; margin-bottom: 10px; display: block;
@@ -340,7 +373,7 @@
     .modal-body p { margin-bottom: 20px; }
     .modal-body strong { color: var(--accent); font-weight: 600; }
 
-    /* --- 8. 微光特效 --- */
+    /* --- 8. 微光特效 與 主題切換按鈕 --- */
     .sparkle {
         position: absolute; pointer-events: none;
         background: radial-gradient(circle, #fff 10%, transparent 100%);
@@ -349,35 +382,31 @@
     }
     @keyframes sparkleAnim { 0% { transform: scale(0); opacity: 1; } 100% { transform: scale(1); opacity: 0; } }
 
-    /* Theme Switch */
+    /* Theme Switch - 修改為月亮並保持固定位置 */
     .theme-switch {
-        position: fixed; bottom: 30px; right: 30px; font-size: 1.5rem;
-        background: var(--card-bg); width: 50px; height: 50px; border-radius: 50%;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.1); border: 1px solid var(--border-color);
+        position: fixed; bottom: 30px; right: 30px; font-size: 1.6rem;
+        background: var(--card-bg); width: 54px; height: 54px; border-radius: 50%;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.15); border: 1px solid var(--border-color);
         cursor: pointer; z-index: 100; display: flex; justify-content: center; align-items: center;
-        transition: transform 0.3s; color: var(--primary);
+        transition: all 0.3s ease; color: var(--primary);
     }
-    .theme-switch:hover { transform: rotate(15deg) scale(1.1); color: var(--accent); }
+    /* Hover 時的旋轉效果 */
+    .theme-switch:hover { transform: rotate(-20deg) scale(1.1); color: var(--accent); box-shadow: 0 8px 25px rgba(180, 93, 64, 0.25); }
 
     /* RWD */
     @media (max-width: 900px) {
         .hero-title { font-size: 2.5rem; }
-        .container { grid-template-columns: 1fr; padding: 0; gap: 40px; }
+        .container { grid-template-columns: 1fr; padding: 0 20px; gap: 40px; }
         .sidebar { position: static; margin-top: 40px; }
         .grid-2 { grid-template-columns: 1fr; }
-        .main-wrapper { padding-top: 40px; margin-top: 85vh; }
-        .modal-content { padding: 30px; }
-        .nav-links { display: none; }
-    }
-    @media print {
-        .curtain, .hero-fixed, .sticky-nav, .sidebar, .theme-switch, .card-footer { display: none; }
-        .main-wrapper { margin-top: 0; box-shadow: none; border: none; }
-        .card { box-shadow: none; border: 1px solid #000; }
-        .modal-overlay { display: none; }
+        .main-wrapper { padding-top: 60px; margin-top: 90vh; }
+        .modal-content { padding: 30px; margin: 20px; max-height: 85vh; }
+        .nav-links { display: none; /* 手機版暫時隱藏導航連結 */ }
+        .card { padding: 30px 25px; }
     }
   </style>
 </head>
-<body>
+<body data-theme="light">
 
 <div class="curtain">
     <div class="curtain-text">陳妤恩 PORTFOLIO</div>
@@ -397,9 +426,11 @@
 </nav>
 
 <div class="hero-fixed">
-    <img src="144448.jpg" class="hero-avatar" alt="陳妤恩">
-    <h1 class="hero-title">陳妤恩 <span style="font-size: 1.8rem; font-weight: 300; font-family:'Noto Serif TC'; color:var(--primary);">Yu-En</span></h1>
-    <div class="hero-subtitle">美術與數據的跨領域實踐者</div>
+    <div class="hero-content-layer">
+        <img src="144448.jpg" class="hero-avatar" alt="陳妤恩">
+        <h1 class="hero-title">陳妤恩 <span style="font-size: 1.8rem; font-weight: 300; font-family:'Noto Serif TC'; color:var(--primary);">Yu-En</span></h1>
+        <div class="hero-subtitle">美術與數據的跨領域實踐者</div>
+    </div>
     <div class="scroll-hint">↓ Scroll to Explore</div>
 </div>
 
@@ -425,7 +456,6 @@
             <section class="animate-in">
                 <div class="section-header">經歷與活動</div>
                 <div class="card-container">
-                    
                     <div class="card" onclick="handleCardClick(event, 'exp1')">
                         <div class="card-content-wrapper">
                             <span class="card-tag">2022 ｜ 專題研究</span>
@@ -436,7 +466,6 @@
                             <div class="card-action">View Details <span>＋</span></div>
                         </div>
                     </div>
-
                     <div class="card" onclick="handleCardClick(event, 'exp2')">
                         <div class="card-content-wrapper">
                             <span class="card-tag">High School ｜ 領導經驗</span>
@@ -447,7 +476,6 @@
                             <div class="card-action">View Details <span>＋</span></div>
                         </div>
                     </div>
-
                     <div class="card" onclick="handleCardClick(event, 'exp3')">
                         <div class="card-content-wrapper">
                             <span class="card-tag">2023 ｜ 資訊實力</span>
@@ -458,7 +486,6 @@
                             <div class="card-action">View Details <span>＋</span></div>
                         </div>
                     </div>
-
                     <div class="card" onclick="handleCardClick(event, 'exp4')">
                         <div class="card-content-wrapper">
                             <span class="card-tag">多屆參賽 ｜ 藝術背景</span>
@@ -469,14 +496,12 @@
                             <div class="card-action">View Details <span>＋</span></div>
                         </div>
                     </div>
-
                 </div>
             </section>
 
             <section class="animate-in" style="margin-top: 80px;">
                 <div class="section-header">精選課程學習成果</div>
                 <div class="grid-2">
-                    
                     <div class="card" onclick="handleCardClick(event, 'pj1')">
                         <div class="card-content-wrapper">
                             <span class="card-tag">數據分析</span>
@@ -487,7 +512,6 @@
                             <div class="card-action">View Details <span>＋</span></div>
                         </div>
                     </div>
-
                     <div class="card" onclick="handleCardClick(event, 'pj2')">
                         <div class="card-content-wrapper">
                             <span class="card-tag">物理探究</span>
@@ -498,7 +522,6 @@
                             <div class="card-action">View Details <span>＋</span></div>
                         </div>
                     </div>
-
                     <div class="card" onclick="handleCardClick(event, 'pj3')">
                         <div class="card-content-wrapper">
                             <span class="card-tag">實境解謎</span>
@@ -509,7 +532,6 @@
                             <div class="card-action">View Details <span>＋</span></div>
                         </div>
                     </div>
-
                     <div class="card" onclick="handleCardClick(event, 'pj4')">
                         <div class="card-content-wrapper">
                             <span class="card-tag">永續議題</span>
@@ -520,7 +542,6 @@
                             <div class="card-action">View Details <span>＋</span></div>
                         </div>
                     </div>
-
                 </div>
             </section>
         </main>
@@ -530,10 +551,10 @@
                 <h3 style="margin:0 0 25px 0; font-family:'Noto Serif TC'; color:var(--primary); font-size: 1.4rem;">聯絡與下載</h3>
                 <div class="action-list">
                     <a class="btn btn-primary" href="mailto:annchen0113@mail.com">📩 郵件聯絡</a>
-                    <a class="btn btn-ghost" href="https://instagram.com/" target="_blank">💬 IG 私訊</a>
-                    <a class="btn btn-ghost" href="https://line.me/" target="_blank">🟩 LINE 加好友</a>
+                    <a class="btn btn-ghost" href="#" target="_blank">💬 IG 私訊</a>
+                    <a class="btn btn-ghost" href="#" target="_blank">🟩 LINE 加好友</a>
                     <button class="btn btn-ghost" onclick="downloadVcard()">📎 下載聯絡卡</button>
-                    <a class="btn btn-ghost" href="https://github.com/" target="_blank">🐱 GitHub</a>
+                    <a class="btn btn-ghost" href="#" target="_blank">🐱 GitHub</a>
                 </div>
                 <p style="font-size:0.8rem; color:var(--text-muted); margin-top:30px; opacity: 0.7;">Updated: 2025</p>
             </div>
@@ -542,7 +563,7 @@
     </div>
 </div>
 
-<button class="theme-switch" onclick="toggleTheme()">🏮</button>
+<button class="theme-switch" onclick="toggleTheme()" aria-label="Toggle Dark Mode">🌙</button>
 
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
     <div class="modal-content">
@@ -552,22 +573,21 @@
 </div>
 
 <script>
-    // --- 捲動監聽 (用於切換 Sticky Nav 與 Hero) ---
+    // --- 捲動監聽 ---
     window.addEventListener('scroll', () => {
         const scrolled = window.scrollY > 300;
         document.body.classList.toggle('scrolled', scrolled);
         
-        // 簡單的入場動畫觸發
         const elements = document.querySelectorAll('.animate-in');
         elements.forEach(el => {
             const rect = el.getBoundingClientRect();
-            if(rect.top < window.innerHeight - 50) {
+            if(rect.top < window.innerHeight - 80) { // 稍微提早觸發
                 el.classList.add('visible');
             }
         });
     });
 
-    // --- 資料庫 ---
+    // --- 資料庫 (保持不變) ---
     const data = {
         'about': {
             tag: 'About Me | 個人特質',
@@ -685,10 +705,10 @@
         }
     };
 
-    // --- 微光特效 (Sparkle) ---
+    // --- 微光特效 (Sparkle) - 使用與主題色一致的顏色 ---
     function createBurst(x, y) {
         const particleCount = 12;
-        const colors = ['#B45D40', '#887F7A', '#D8C6BE']; // 配合利休鼠色系
+        const colors = ['#B45D40', '#887F7A', '#D8C6BE'];
 
         for (let i = 0; i < particleCount; i++) {
             const particle = document.createElement('div');
@@ -756,13 +776,17 @@
         document.body.style.overflow = ''; 
     }
 
-    // --- Theme Toggle ---
+    // --- Theme Toggle (修改為月亮/太陽切換) ---
     function toggleTheme() {
         const body = document.body;
-        const current = body.getAttribute('data-theme');
+        // 檢查目前的 data-theme 屬性，如果沒有就預設為 light
+        const current = body.getAttribute('data-theme') || 'light';
         const next = current === 'dark' ? 'light' : 'dark';
+        
         body.setAttribute('data-theme', next);
-        document.querySelector('.theme-switch').innerHTML = next === 'dark' ? '☀️' : '🏮';
+        
+        // 切換圖示：如果是深色模式，顯示太陽(準備切回淺色)；否則顯示月亮
+        document.querySelector('.theme-switch').innerHTML = next === 'dark' ? '☀️' : '🌙';
     }
 
     // --- vCard ---
@@ -771,7 +795,7 @@
 VERSION:3.0
 FN:陳妤恩
 EMAIL:annchen0113@mail.com
-NOTE:美術與數據分析
+NOTE:美術與數據分析 Portfolio Contact
 END:VCARD`;
         const blob = new Blob([vcard], {type: 'text/plain'});
         const url = URL.createObjectURL(blob);
@@ -781,13 +805,14 @@ END:VCARD`;
         document.body.appendChild(a);
         a.click();
         a.remove();
+        URL.revokeObjectURL(url);
     }
     
     // 觸發入場動畫
     setTimeout(() => {
         const els = document.querySelectorAll('.animate-in');
         els.forEach(el => el.classList.add('visible'));
-    }, 2200); // 等待開場動畫結束
+    }, 2200);
 </script>
 
 </body>
